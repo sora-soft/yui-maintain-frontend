@@ -1,0 +1,18 @@
+<div style="display: flex; height: 100%; flex-direction: column;">
+  <div nz-row class="page-header">
+    <h1 nz-col nzSpan="8">用户组</h1>
+    <div class="page-operation" nz-col nzSpan="8" nzOffset="8">
+      <button nz-button nzSize="large" nzShape="round" (click)="updateData()">
+        <span nz-icon nzType="reload" nzTheme="outline"></span>
+      </button>
+      <button *auth="[AuthName.API_AuthGroup_Insert]" nz-button nzType="primary" nzSize="large" nzShape="round" (click)="createAccountGroup()">
+        <span nz-icon nzType="plus"></span>
+        新建用户组
+      </button>
+    </div>
+  </div>
+
+  <div class="page-content">
+    <app-account-group-table #table></app-account-group-table>
+  </div>
+</div>

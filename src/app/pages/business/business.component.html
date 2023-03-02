@@ -1,0 +1,82 @@
+<nz-layout>
+  <nz-sider nzCollapsible [nzTrigger]="null" nzWidth="280px">
+    <div class="logo">
+      <img src="/assets/logo.png">
+      Sora
+    </div>
+    <ul nz-menu nzMode="inline" nzTheme="dark">
+      <ng-container *ngFor="let route of navList">
+        <ng-container *ngIf="route.children">
+          <li nz-submenu [nzTitle]="route.name" [nzIcon]="route.icon"
+              routerLinkActive
+              #uRla="routerLinkActive"
+              [nzOpen]="uRla.isActive"
+              *auth="route.auth"
+          >
+            <ul>
+              <ng-container
+                *ngFor="let child of route.children"
+              >
+                <li
+                  *auth="child.auth"
+                  nz-menu-item
+                  routerLinkActive
+                  #rla="routerLinkActive"
+                  [nzSelected]="rla.isActive"
+                >
+                  <a [routerLink]="child.link">
+                    {{child.name}}
+                  </a>
+                </li>
+              </ng-container>
+            </ul>
+        </li>
+        </ng-container>
+        <ng-container *ngIf="!route.children">
+          <li
+            nz-menu-item
+            routerLinkActive
+            #rla="routerLinkActive"
+            [nzSelected]="rla.isActive"
+            *auth="route.auth"
+          >
+            <a [routerLink]="route.link">
+              <span nz-icon [nzType]="route.icon"></span>
+              <span>{{route.name}}</span>
+            </a>
+          </li>
+        </ng-container>
+
+      </ng-container>
+
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div></div>
+      <div>
+        <button class="user-profile" nz-button nzType="text" nzSize="large" nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+          <span nz-icon nzType="user" nzTheme="outline"></span>
+          {{nickname}}
+        </button>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <div class="user-profile-header">
+            <nz-avatar [nzSize]="36" nzIcon="user"></nz-avatar>{{nickname}}
+          </div>
+          <div class="user-profile-foot">
+            <button nz-button nzType="link" (click)="logout()">登出</button>
+          </div>
+          <!-- <ul nz-menu>
+            <li nz-menu-item (click)="logout()">
+              登出
+            </li>
+          </ul> -->
+        </nz-dropdown-menu>
+      </div>
+    </nz-header>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+    <nz-footer>Powered by <a target="_blank" href="https://github.com/sora-soft/admin-dashboard">sora</a></nz-footer>
+  </nz-layout>
+</nz-layout>

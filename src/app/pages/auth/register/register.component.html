@@ -1,0 +1,46 @@
+<nz-card style="width:360px;" nzTitle="注册">
+  <form nz-form [formGroup]="validateForm" class="register-form" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="请输入用户名!">
+        <nz-input-group nzPrefixIcon="user" nzSize="large">
+          <input type="text" nz-input formControlName="username" placeholder="用户名" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="请输入昵称!">
+        <nz-input-group nzPrefixIcon="user" nzSize="large">
+          <input type="text" nz-input formControlName="nickname" placeholder="昵称" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzErrorTip]="emailErrorTpl">
+        <nz-input-group nzPrefixIcon="mail" nzSize="large">
+          <input type="text" nz-input formControlName="email" placeholder="邮箱" />
+          <ng-template #emailErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('email')">邮箱格式错误!</ng-container>
+            <ng-container *ngIf="control.hasError('required')">请输入邮箱!</ng-container>
+          </ng-template>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="请输入密码!" nzSize="large">
+        <nz-input-group nzPrefixIcon="lock">
+          <input type="password" nz-input formControlName="password" placeholder="密码" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="请输入密码!" nzSize="large">
+        <nz-input-group nzPrefixIcon="lock">
+          <input type="password" nz-input formControlName="confirmPassword" placeholder="确认密码" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <button nz-button class="register-form-button register-form-margin" [nzType]="'primary'" nzSize="large">注册</button>
+    或
+    <a [routerLink]="['/auth/login']">立即登录</a>!
+  </form>
+</nz-card>

@@ -1,0 +1,18 @@
+<div style="height: 60vh; overflow: auto">
+  <nz-collapse>
+    <nz-collapse-panel
+      *ngFor="let group of AuthGroupList"
+      [nzHeader]="group.group"
+      [nzActive]="true"
+    >
+      <nz-list>
+        <nz-list-item>
+          <label nz-checkbox [ngModel]="isSelectedAll(group)" (ngModelChange)="toggleSelectAll(group)" [nzIndeterminate]="hasSelectedAny(group) && !isSelectedAll(group)">全选</label>
+        </nz-list-item>
+        <nz-list-item *ngFor="let permission of group.permissions">
+          <label nz-checkbox [ngModel]="hasPermission(permission[0])" (ngModelChange)="changePermission(permission[0])">{{ permission[1] }}</label>
+        </nz-list-item>
+      </nz-list>
+    </nz-collapse-panel>
+  </nz-collapse>
+</div>

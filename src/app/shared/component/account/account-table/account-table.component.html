@@ -1,0 +1,41 @@
+<div style="height: 100%" class="table-container">
+  <nz-table nzShowSizeChanger
+      [nzData]="list"
+      [nzFrontPagination]="false"
+      [nzLoading]="loading"
+      [nzShowPagination]="true"
+      [nzTotal]="total"
+      [nzPageSize]="10"
+      [nzPageIndex]="pageIndex"
+      [nzScroll]="{y: '0'}"
+      (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+      <tr>
+        <th nzColumnKey="nickname" [nzSortFn]="true">昵称</th>
+        <th nzColumnKey="state">状态</th>
+        <th nzColumnKey="email">邮箱</th>
+        <th nzColumnKey="group">用户组</th>
+        <th nzColumnKey="operation" *auth="[AuthName.API_Account_Update]"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of list">
+        <td>{{ data.nickname }}</td>
+        <td>
+          <ng-container *ngIf="data.disabled">
+            <nz-tag nzColor="error">禁用</nz-tag>
+          </ng-container>
+          <ng-container *ngIf="!data.disabled">
+            <nz-tag nzColor="default">正常</nz-tag>
+          </ng-container>
+        </td>
+        <td>{{ data.email }}</td>
+        <td>{{ data.group.name }}</td>
+        <td *auth="[AuthName.API_Account_Update, AuthName.API_Account_Disable]">
+          <button nz-button nzType="link" (click)="editAccount(data)" *auth="[AuthName.API_Account_Update]">编辑</button>
+          <button nz-button nzType="link" (click)="disableAccount(data)" *auth="[AuthName.API_Account_Disable]">{{data.disabled ? '启用' : '封禁'}}</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
