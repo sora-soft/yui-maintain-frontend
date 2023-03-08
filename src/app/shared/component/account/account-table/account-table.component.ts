@@ -1,7 +1,7 @@
 import { Component, ErrorHandler } from '@angular/core';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {NzTableQueryParams} from 'ng-zorro-antd/table';
-import {ServerService} from 'src/app/service/server.service';
+import {ServerService} from 'src/app/service/server/server.service';
 import {Account, IReqFetch} from 'src/app/service/server/api';
 import {AuthName} from 'src/app/service/user.service';
 import {DataTable} from 'src/app/shared/lib/data-table';

@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   name: 'Sora',
-  server: 'https://sora-dev.xyyaya.com/api/v1/'
+  httpEndpoint: 'https://sora-dev.xyyaya.com/api/v1/',
+  websocketEndpoint: 'wss://sora-dev.xyyaya.com/ws',
 };
 
 /*

@@ -1,6 +1,6 @@
 import { Injectable, ErrorHandler, NgZone } from '@angular/core';
 import {from, map, of} from 'rxjs';
-import {ServerService} from './server.service';
+import {ServerService} from './server/server.service';
 import {AuthGroup} from './server/api';
 
 @Injectable({

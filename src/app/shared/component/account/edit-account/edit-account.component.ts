@@ -1,7 +1,7 @@
 import { Component, ErrorHandler } from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzModalRef} from 'ng-zorro-antd/modal';
-import {ServerService} from 'src/app/service/server.service';
+import {ServerService} from 'src/app/service/server/server.service';
 import {AuthGroupService} from 'src/app/service/auth-group.service';
 import {Account, AuthGroup} from 'src/app/service/server/api';
 import {Md5} from 'ts-md5';

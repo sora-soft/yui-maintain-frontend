@@ -1,7 +1,7 @@
 import { Component, ErrorHandler } from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {NzModalRef} from 'ng-zorro-antd/modal';
-import {ServerService} from 'src/app/service/server.service';
+import {ServerService} from 'src/app/service/server/server.service';
 import {AuthGroup} from 'src/app/service/server/api';
 
 @Component({

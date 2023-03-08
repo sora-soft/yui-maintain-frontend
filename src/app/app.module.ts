@@ -12,6 +12,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { ErrorHandlerService } from './service/error-handler.service';
 import {NzMessageModule} from 'ng-zorro-antd/message';
+import {ServerService} from './service/server/server.service';
+import {HttpServerService} from './service/server/http-server.service';
+import {WebsocketServerService} from './service/server/websocket-server.service';
 
 registerLocaleData(zh);
 
@@ -29,7 +32,9 @@ registerLocaleData(zh);
   ],
   providers: [
     { provide: ErrorHandler, useClass: ErrorHandlerService },
-    { provide: NZ_I18N, useValue: zh_CN }
+    { provide: NZ_I18N, useValue: zh_CN },
+    { provide: ServerService, useClass: WebsocketServerService },
+    // { provide: ServerService, useClass: HttpServerService },
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,7 @@
 import { Component, ErrorHandler } from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzModalService} from 'ng-zorro-antd/modal';
-import {ServerService} from 'src/app/service/server.service';
+import {ServerService} from 'src/app/service/server/server.service';
 import {AuthGroup} from 'src/app/service/server/api';
 import {AuthName} from 'src/app/service/user.service';
 import {DataTable} from '../../../lib/data-table';

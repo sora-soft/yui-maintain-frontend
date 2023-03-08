@@ -2,7 +2,7 @@ import {Location} from '@angular/common';
 import { Component, ErrorHandler } from '@angular/core';
 import { FormBuilder, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {Router} from '@angular/router';
-import { ServerService } from 'src/app/service/server.service';
+import { ServerService } from 'src/app/service/server/server.service';
 
 @Component({
   selector: 'app-register',

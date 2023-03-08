@@ -1,7 +1,7 @@
 import { Component, ErrorHandler, OnInit } from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzModalRef} from 'ng-zorro-antd/modal';
-import {ServerService} from 'src/app/service/server.service';
+import {ServerService} from 'src/app/service/server/server.service';
 import {AuthGroup, PermissionResult} from 'src/app/service/server/api';
 import {AuthName, UserService, AuthDependence, IAuthGroup, AuthGroupList} from 'src/app/service/user.service';
 

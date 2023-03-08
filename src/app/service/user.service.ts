@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
 import {UserError} from './error/UserError';
-import {ServerService} from './server.service';
+import {ServerService} from './server/server.service';
 import {AuthPermission, PermissionResult, UserErrorCode} from './server/api';
+import {TokenService} from './server/token.service';
 
 export interface IUserInfo {
   id: number;
@@ -74,27 +75,26 @@ export const AuthGroupList: IAuthGroup[] = [
   providedIn: 'root'
 })
 export class UserService {
-  private logined = false;
   private userInfo: IUserInfo | null = null;
   private permissions = new Map<AuthName, PermissionResult>();
 
   constructor(
     private server: ServerService,
     private router: Router,
+    private token: TokenService,
   ) {}
 
   get nickname() {
     return this.userInfo?.nickname;
   }
 
-  login(info: IUserInfo, permissions: AuthPermission[]) {
+  login(info: IUserInfo, permissions: AuthPermission[], token: string, expireAt: number) {
     this.userInfo = info;
     for (const permission of permissions) {
       this.permissions.set(permission.name as AuthName, permission.permission);
     }
-    this.logined = true;
     this.loadPermission(permissions);
-    // this.permissions = permissions;
+    this.token.setToken(token, expireAt);
   }
 
   loadPermission(permissions: AuthPermission[]) {
@@ -106,7 +106,6 @@ export class UserService {
 
   logout() {
     this.clearPermission();
-    this.logined = false;
   }
 
   checkPermissions(names: AuthName | AuthName[]) {
