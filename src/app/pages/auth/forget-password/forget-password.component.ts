@@ -1,7 +1,7 @@
 import { Component, ErrorHandler } from '@angular/core';
 import {FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {ServerService} from 'src/app/service/server.service';
+import {ServerService} from 'src/app/service/server/server.service';
 import {UserService} from 'src/app/service/user.service';
 import {Md5} from 'ts-md5';
 

@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   name: 'Yui',
-  server: 'https://yui-dev.xyyaya.com/api/v1/'
+  httpEndpoint: 'https://yui-dev.xyyaya.com/api/v1/',
+  websocketEndpoint: 'wss://yui-dev.xyyaya.com/ws',
 };
 
 /*

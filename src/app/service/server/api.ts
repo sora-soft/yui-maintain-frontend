@@ -62,6 +62,7 @@ export enum UserErrorCode {
   ERR_ACCOUNT_NOT_FOUND = "ERR_ACCOUNT_NOT_FOUND",
   ERR_WRONG_EMAIL_CODE = "ERR_WRONG_EMAIL_CODE",
   ERR_ACCOUNT_DISABLED = "ERR_ACCOUNT_DISABLED",
+  ERR_DISABLE_SELF = "ERR_DISABLE_SELF",
   ERR_AUTH_GROUP_NOT_FOUND = "ERR_AUTH_GROUP_NOT_FOUND",
   ERR_AUTH_GROUP_NOT_EMPTY = "ERR_AUTH_GROUP_NOT_EMPTY",
   ERR_AUTH_DENY = "ERR_AUTH_DENY",
@@ -100,6 +101,10 @@ export declare class GatewayHandler {
       nickname: string;
     };
     permissions: AuthPermission[];
+    authorization: {
+      token: string;
+      expireAt: number;
+    };
   }>;
   info(body: void): Promise<{
     account: {
@@ -109,6 +114,10 @@ export declare class GatewayHandler {
       nickname: string;
     };
     permissions: AuthPermission[];
+    authorization: {
+      token: string;
+      expireAt: number;
+    };
   }>;
   logout(body: void): Promise<{}>;
 }
@@ -175,7 +184,7 @@ export interface ObjectLiteral {
 }
 export type WhereCondition<T> = Condition<T> | Array<Condition<T>>;
 export type Condition<T> = {
-  [K in keyof T]?: T[K] | WhereOperatorCondition;
+  [K in keyof T]?: T[K] | WhereOperatorCondition | Condition<T[K]>;
 }
 export type WhereOperatorCondition = {
   [K in WhereOperators]?: any;

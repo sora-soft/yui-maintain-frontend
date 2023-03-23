@@ -1,7 +1,7 @@
 import { Component, ErrorHandler } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {Router} from '@angular/router';
-import { ServerService } from 'src/app/service/server.service';
+import { ServerService } from 'src/app/service/server/server.service';
 import { UserService } from 'src/app/service/user.service';
 import {Md5} from 'ts-md5';
 
@@ -36,7 +36,7 @@ export class LoginComponent {
         password: new Md5().appendStr(this.validateForm.value.password).end(),
       }).subscribe({
         next: (res) => {
-          this.user.login(res.account, res.permissions);
+          this.user.login(res.account, res.permissions, res.authorization.token, res.authorization.expireAt);
           this.router.navigate(['/business/']);
         },
         error: (err) => {

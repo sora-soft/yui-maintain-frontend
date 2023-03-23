@@ -2,7 +2,7 @@ import {ErrorHandler, Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanLoad, Router, RouterStateSnapshot, UrlSegment} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {ServerService} from '../../service/server.service';
+import {ServerService} from '../../service/server/server.service';
 import {UserService} from '../../service/user.service';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class BusinessCanActivate implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.server.gateway.info().pipe(
       map((result) => {
-        this.user.login(result.account, result.permissions);
+        this.user.login(result.account, result.permissions, result.authorization.token, result.authorization.expireAt);
         return true;
       }),
       catchError((err) => {

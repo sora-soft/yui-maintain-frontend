@@ -1,6 +1,6 @@
 import {ErrorHandler} from '@angular/core';
 import {NzTableQueryParams} from 'ng-zorro-antd/table';
-import {ServerService} from 'src/app/service/server.service'
+import {ServerService} from 'src/app/service/server/server.service'
 import {FindOptionsOrderValue, IReqFetch, ObjectLiteral} from 'src/app/service/server/api'
 
 abstract class DataTable<T extends ObjectLiteral> {
