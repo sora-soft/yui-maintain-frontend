@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  name: 'Sora',
-  server: '//localhost/api/v1/'
+  name: 'Yui',
+  server: 'https://yui-dev.xyyaya.com/api/v1/'
 };

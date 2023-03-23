@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  name: 'Sora',
-  server: 'https://sora-dev.xyyaya.com/api/v1/'
+  name: 'Yui',
+  server: 'https://yui-dev.xyyaya.com/api/v1/'
 };
 
 /*
