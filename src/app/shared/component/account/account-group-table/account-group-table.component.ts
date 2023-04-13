@@ -4,7 +4,7 @@ import {NzModalService} from 'ng-zorro-antd/modal';
 import {ServerService} from 'src/app/service/server/server.service';
 import {AuthGroup} from 'src/app/service/server/api';
 import {AuthName} from 'src/app/service/user.service';
-import {DataTable} from '../../../lib/data-table';
+import {ServerDataTable} from '../../../lib/server-data-table';
 import {EditAccountGroupComponent} from '../edit-account-group/edit-account-group.component';
 import {UpdateAccountGroupComponent} from '../update-account-group/update-account-group.component';
 
@@ -13,7 +13,7 @@ import {UpdateAccountGroupComponent} from '../update-account-group/update-accoun
   templateUrl: './account-group-table.component.html',
   styleUrls: ['./account-group-table.component.scss']
 })
-export class AccountGroupTableComponent extends DataTable<AuthGroup> {
+export class AccountGroupTableComponent extends ServerDataTable<AuthGroup> {
   AuthName = AuthName;
 
   constructor(

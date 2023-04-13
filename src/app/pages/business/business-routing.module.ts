@@ -2,11 +2,21 @@ import { inject, NgModule } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, RouterModule, RouterStateSnapshot, Routes } from '@angular/router';
 import {AccountComponent} from './account/account.component';
 import {BusinessComponent} from './business.component';
+import {MonitorComponent} from './monitor/monitor.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {AccountListComponent} from './account/account-list/account-list.component';
 import {GroupListComponent} from './account/group-list/group-list.component'
 import {UserService} from 'src/app/service/user.service';
 import {BusinessCanActivate} from './business-can-activate';
+import {NodeListComponent} from './monitor/node/node-list/node-list.component';
+import {NodeDetailComponent} from './monitor/node/node-detail/node-detail.component';
+import { NodeBasicComponent } from './monitor/node/node-detail/node-basic/node-basic.component';
+import { NodeRunnersComponent } from './monitor/node/node-detail/node-runners/node-runners.component';
+import { ServiceListComponent } from './monitor/service/service-list/service-list.component';
+import { ServiceDetailComponent } from './monitor/service/service-detail/service-detail.component';
+import {ListenerDetailComponent} from './monitor/listener/listener-detail/listener-detail.component';
+import { NodeComponentsComponent } from './monitor/node/node-detail/node-components/node-components.component';
+import { NodeProvidersComponent } from './monitor/node/node-detail/node-providers/node-providers.component';
 
 export const userResolver: ResolveFn<unknown> =
     (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -45,6 +55,60 @@ const routes: Routes = [
           {
             path: 'group-list',
             component: GroupListComponent,
+          }
+        ]
+      },
+      {
+        path: 'monitor',
+        component: MonitorComponent,
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'node-list'
+          },
+          {
+            path: 'node-list',
+            component: NodeListComponent,
+          },
+          {
+            path: 'node-detail/:id',
+            component: NodeDetailComponent,
+            children: [
+              {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'basic',
+              },
+              {
+                path: 'basic',
+                component: NodeBasicComponent
+              },
+              {
+                path: 'runners',
+                component: NodeRunnersComponent
+              },
+              {
+                path: 'components',
+                component: NodeComponentsComponent
+              },
+              {
+                path: 'providers',
+                component: NodeProvidersComponent,
+              }
+            ]
+          },
+          {
+            path: 'runner-list',
+            component: ServiceListComponent
+          },
+          {
+            path: 'runner-detail/:id',
+            component: ServiceDetailComponent,
+          },
+          {
+            path: 'listener-detail/:id',
+            component: ListenerDetailComponent,
           }
         ]
       }

@@ -1,0 +1,17 @@
+.chip-root {
+  display: flex;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #69c0ff;
+  font-size: 12px;
+
+  .chip-text {
+    padding: 0px 10px;
+    background-color: #69c0ff;
+    color: white;
+  }
+
+  .chip-version {
+    padding: 0px 10px;
+  }
+}

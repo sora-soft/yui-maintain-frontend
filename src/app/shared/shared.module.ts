@@ -23,6 +23,24 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CreateAccountComponent } from './component/account/create-account/create-account.component';
 import { AuthDirective } from './directive/auth.directive';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NodeTableComponent } from './component/node/node-table/node-table.component';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { WorkerStateBadgeComponent } from './component/common/worker-state-badge/worker-state-badge.component';
+import { MomentModule } from 'ngx-moment';
+import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
+import {RouterModule} from '@angular/router';
+import { VersionChipComponent } from './component/common/version-chip/version-chip.component';
+import { RunnerTableComponent } from './component/runner/runner-table/runner-table.component';
+import { ListenerStateBadgeComponent } from './component/common/listener-state-badge/listener-state-badge.component';
+import { LabelStringfiyPipe } from './pipe/label-stringfiy.pipe';
+import { NzTreeViewModule } from 'ng-zorro-antd/tree-view';
+import { JsonOptionsTreeComponent } from './component/common/json-options-tree/json-options-tree.component';
+import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { ProviderTableComponent } from './component/node/provider-table/provider-table.component';
+import { ConnectorStateBadgeComponent } from './component/common/connector-state-badge/connector-state-badge.component';
+import { FilterStringfiyPipe } from './pipe/filter-stringfiy.pipe';
+import {NzProgressModule} from 'ng-zorro-antd/progress';
 
 @NgModule({
   declarations: [
@@ -34,6 +52,16 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     EditAccountComponent,
     CreateAccountComponent,
     AuthDirective,
+    NodeTableComponent,
+    WorkerStateBadgeComponent,
+    VersionChipComponent,
+    RunnerTableComponent,
+    ListenerStateBadgeComponent,
+    LabelStringfiyPipe,
+    JsonOptionsTreeComponent,
+    ProviderTableComponent,
+    ConnectorStateBadgeComponent,
+    FilterStringfiyPipe,
   ],
   imports: [
     CommonModule,
@@ -53,6 +81,14 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzPopconfirmModule,
     NzSelectModule,
     NzTagModule,
+    NzBadgeModule,
+    MomentModule,
+    NzToolTipModule,
+    NzTreeViewModule,
+    NzTreeModule,
+    NzIconModule,
+    NzProgressModule,
+    RouterModule.forChild([]),
   ],
   exports: [
     AccountTableComponent,
@@ -60,6 +96,16 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     CreateAccountGroupComponent,
     EditAccountGroupComponent,
     AuthDirective,
+    NodeTableComponent,
+    WorkerStateBadgeComponent,
+    VersionChipComponent,
+    RunnerTableComponent,
+    ListenerStateBadgeComponent,
+    LabelStringfiyPipe,
+    JsonOptionsTreeComponent,
+    ProviderTableComponent,
+    ConnectorStateBadgeComponent,
+    FilterStringfiyPipe,
   ]
 })
 export class SharedModule { }

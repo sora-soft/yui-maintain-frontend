@@ -1,0 +1,73 @@
+<div style="height: 100%" class="table-container">
+  <nz-table nzShowSizeChanger
+      class="full-table"
+      #dataTable
+      [nzData]="list"
+      [nzFrontPagination]="true"
+      [nzLoading]="loading"
+      [nzShowPagination]="true"
+      [nzTotal]="list.length"
+      [nzPageSize]="10"
+      [nzPageIndex]="pageIndex"
+      [nzScroll]="{y: '0'}">
+    <thead>
+      <tr>
+        <th nzWidth="60px"></th>
+        <th nzColumnKey="nickname">名称</th>
+        <th nzColumnKey="senders">Senders</th>
+        <th nzColumnKey="filter">过滤</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let provider of dataTable.data">
+        <tr>
+          <td [nzExpand]="expandSet.has(provider.name)" (nzExpandChange)="onExpandChange(provider.name, $event)"></td>
+          <td>
+            {{ provider.name }}
+          </td>
+          <td>
+            {{ provider.senders.length }}
+          </td>
+          <td>
+            {{ provider.filter | filterStringfiy }}
+          </td>
+        </tr>
+        <tr [nzExpand]="expandSet.has(provider.name)">
+          <nz-table class="child-table" [nzData]="provider.senders" #childTable [nzShowPagination]="false">
+            <thead>
+              <tr>
+                <th nzWidth="350px">Listener</th>
+                <th nzWidth="350px">Service</th>
+                <th nzWidth="150px">权重</th>
+                <th nzWidth="150px">状态</th>
+                <th>协议</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let sender of provider.senders">
+                <td>
+                  <a [routerLink]="['/business/monitor/listener-detail/', sender.listenerId]">
+                    {{sender.listenerId}}
+                  </a>
+                </td>
+                <td>
+                  <a [routerLink]="['/business/monitor/runner-detail/', sender.targetId]">
+                    {{getRunner(sender.targetId)?.name}}
+                  </a>
+                </td>
+                <td><nz-progress [nzPercent]="sender.weight" nzSize="small" nzStatus="normal"></nz-progress></td>
+                <td>
+                  <app-connector-state-badge [state]="sender.state"></app-connector-state-badge>
+                </td>
+                <td>
+                  {{sender.protocol}}
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</div>

@@ -1,0 +1,24 @@
+<!-- <nz-tree
+  #nzTreeComponent
+  [nzData]="nodes"
+></nz-tree> -->
+
+<nz-tree-view [nzTreeControl]="treeControl" [nzDataSource]="dataSource">
+  <nz-tree-node *nzTreeNodeDef="let node" nzTreeNodePadding [nzTreeNodePaddingIndent]="6">
+    <nz-tree-node-toggle nzTreeNodeNoopToggle></nz-tree-node-toggle>
+    <nz-tree-node-option
+      [nzDisabled]="node.disabled"
+    >
+      {{ node.key }}: {{node.value}}
+    </nz-tree-node-option>
+  </nz-tree-node>
+
+  <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodePadding [nzTreeNodePaddingIndent]="6">
+    <nz-tree-node-toggle>
+      <span nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon></span>
+    </nz-tree-node-toggle>
+    <nz-tree-node-option>
+      {{ node.key }}: {{node.value}}
+    </nz-tree-node-option>
+  </nz-tree-node>
+</nz-tree-view>

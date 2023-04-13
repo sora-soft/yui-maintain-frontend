@@ -1,0 +1,62 @@
+<nz-row [nzGutter]="16">
+  <nz-col [nzSpan]="4">
+    <nz-statistic [nzValue]="(node?.services?.length | number) || '-'" nzTitle="Service"></nz-statistic>
+  </nz-col>
+  <nz-col [nzSpan]="4">
+    <nz-statistic [nzValue]="(node?.workers?.length | number) || '-'" nzTitle="Workers"></nz-statistic>
+  </nz-col>
+  <nz-col [nzSpan]="4">
+    <nz-statistic [nzValue]="(node?.run?.providers?.length | number) || '-'" nzTitle="Providers"></nz-statistic>
+  </nz-col>
+  <nz-col [nzSpan]="4">
+    <nz-statistic [nzValue]="(node?.run?.components?.length | number) || '-'" nzTitle="Components"></nz-statistic>
+  </nz-col>
+  <nz-col [nzSpan]="4">
+    <nz-statistic [nzValue]="(((time.$unixNow | async) || 0) - (node?.meta?.startTime || 0)) | amDuration:'seconds'" nzTitle="运行时长"></nz-statistic>
+  </nz-col>
+</nz-row>
+
+<nz-descriptions nzTitle="基本信息">
+  <nz-descriptions-item nzTitle="ID">{{node?.meta?.id}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="状态">
+    <ng-container [ngSwitch]="node?.meta?.state">
+      <nz-badge *ngSwitchCase="WorkerState.INIT" nzStatus="defualt" nzText="初始化"></nz-badge>
+      <nz-badge *ngSwitchCase="WorkerState.PENDING" nzStatus="Processing" nzText="启动中"></nz-badge>
+      <ng-container *ngSwitchCase="WorkerState.READY">
+        <nz-badge *ngIf="!node?.isBusy()"  nzStatus="success" nzText="运行中"></nz-badge>
+        <nz-badge *ngIf="node?.isBusy()"  nzStatus="Warning" nzText="未响应"></nz-badge>
+      </ng-container>
+      <nz-badge *ngSwitchCase="WorkerState.STOPPING" nzStatus="Processing" nzText="正在停止"></nz-badge>
+      <nz-badge *ngSwitchCase="WorkerState.STOPPED" nzStatus="Default" nzText="已停止"></nz-badge>
+      <nz-badge *ngSwitchCase="WorkerState.ERROR" nzStatus="Error" nzText="出错"></nz-badge>
+      <nz-badge *ngSwitchDefault nzStatus="defualt" nzText="未知"></nz-badge>
+    </ng-container>
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="主机">{{node?.meta?.host}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Pid">{{node?.meta?.pid}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="管理接口">{{node?.meta?.endpoint?.protocol}}://{{node?.meta?.endpoint?.endpoint}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="版本">
+    <app-version-chip text="app" [version]="node?.meta?.versions?.app || ''"></app-version-chip>
+    <app-version-chip text="framework" [version]="node?.meta?.versions?.framework || ''"></app-version-chip>
+  </nz-descriptions-item>
+</nz-descriptions>
+
+<nz-descriptions nzTitle="服务发现" [nzColumn]="1">
+  <nz-descriptions-item nzTitle="类型">
+    {{node?.discovery?.type}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="版本">
+    {{node?.discovery?.version}}
+  </nz-descriptions-item>
+</nz-descriptions>
+
+<nz-descriptions nzTitle="运行状态" [nzColumn]="1">
+  <nz-descriptions-item nzTitle="Services">
+    <app-worker-state-badge *ngFor="let service of node?.services" [state]="service.data.state" [text]="service.data.name"></app-worker-state-badge>
+    <span *ngIf="!node?.services?.length">-</span>
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Workers">
+    <app-worker-state-badge *ngFor="let worker of node?.workers" [state]="worker.data.state" [text]="worker.data.name"></app-worker-state-badge>
+    <span *ngIf="!node?.workers?.length">-</span>
+  </nz-descriptions-item>
+</nz-descriptions>

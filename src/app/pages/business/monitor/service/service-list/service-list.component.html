@@ -1,0 +1,12 @@
+<div style="display: flex; height: 100%; flex-direction: column;">
+  <div nz-row class="page-header">
+    <h1 nz-col nzSpan="8">服务列表</h1>
+    <div class="page-operation" nz-col nzSpan="8" nzOffset="8">
+    </div>
+  </div>
+
+  <div class="page-content">
+    <app-runner-table [list]="(cluster.$runner | async) || []"></app-runner-table>
+    <!-- <app-node-table></app-node-table> -->
+  </div>
+</div>

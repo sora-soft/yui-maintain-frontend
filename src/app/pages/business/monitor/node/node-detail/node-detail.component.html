@@ -1,0 +1,55 @@
+<div class="container-root">
+  <div class="container-header">
+    <button nzShape="circle" nzSize="large" nz-button nzType="text" (click)="goBack()">
+      <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+    </button>
+    <div>
+      {{node?.name}}
+    </div>
+    <div class="node-tag-container">
+      <nz-tag nzColor="processing">node</nz-tag>
+      <nz-tag nzColor="default">{{node?.id}}</nz-tag>
+    </div>
+  </div>
+  <ul nz-menu nzMode="horizontal">
+    <li nz-menu-item
+      routerLinkActive
+      #detailRla="routerLinkActive"
+      [nzSelected]="detailRla.isActive"
+    >
+      <a [routerLink]="['/business/monitor/node-detail', node?.meta?.id, 'basic']">
+        详情
+      </a>
+    </li>
+    <li nz-menu-item [nzDisabled]="true">
+      性能
+    </li>
+    <li nz-menu-item
+      routerLinkActive
+      #runnerRla="routerLinkActive"
+      [nzSelected]="runnerRla.isActive">
+      <a [routerLink]="['/business/monitor/node-detail', node?.meta?.id, 'runners']">
+        Services & Workers
+      </a>
+    </li>
+    <li nz-menu-item
+      routerLinkActive
+      #providerRla="routerLinkActive"
+      [nzSelected]="providerRla.isActive">
+      <a [routerLink]="['/business/monitor/node-detail', node?.meta?.id, 'providers']">
+        Providers
+      </a>
+    </li>
+    <li nz-menu-item
+      routerLinkActive
+      #componentRla="routerLinkActive"
+      [nzSelected]="componentRla.isActive">
+      <a [routerLink]="['/business/monitor/node-detail', node?.meta?.id, 'components']">
+        Components
+      </a>
+    </li>
+  </ul>
+  <div class="container-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+h1 {
+  margin: 0;
+}
+
+.page-operation {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.page-header {
+  padding: 20px;
+}
+
+.page-content {
+  flex: 1;
+  height: 0;
+  background-color: #FFF;
+}
+
+[nz-button] {
+  margin-right: 8px;
+}

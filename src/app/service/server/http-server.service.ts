@@ -1,7 +1,7 @@
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {catchError, map} from 'rxjs';
+import {catchError, map, Observable, Subject} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {ErrorLevel} from '../error/ErrorUtil';
 import {NetError} from '../error/NetError';
@@ -22,6 +22,10 @@ export class HttpServerService extends ServerService {
     private token: TokenService,
   ) {
     super();
+  }
+
+  createNotifyObserver<T>(name: string, subscribe: () => void, unsubscribe: () => void): Observable<T> {
+    throw new Error('HttpClient not support notify observer');
   }
 
   protected createApi<Handler extends IRemoteHandler>(name: ServiceName): ConvertRouteMethod<Handler> {

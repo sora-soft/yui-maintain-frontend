@@ -1,0 +1,85 @@
+<div style="height: 100%" class="table-container">
+  <nz-table
+    nzShowSizeChanger
+    #dataTable
+    [nzData]="list"
+    [nzFrontPagination]="true"
+    [nzLoading]="loading"
+    [nzShowPagination]="true"
+    [nzTotal]="list.length"
+    [nzPageSize]="10"
+    [nzPageIndex]="pageIndex"
+    [nzScroll]="{y: '0'}">
+    <thead>
+      <tr>
+        <th nzColumnKey="alias" nzWidth="330px" *ngIf="!hiddenColumns.includes('alias')">名称</th>
+        <th nzColumnKey="cluster"
+          *ngIf="!hiddenColumns.includes('cluster')"
+          [nzFilterMultiple]="true" [nzFilters]="filters['cluster'].list"
+          [nzFilterFn]="filters['cluster'].fn"
+          (nzFilterChange)="onFilterChange('cluster', $event)">
+          集群
+        </th>
+        <th nzColumnKey="name"
+          *ngIf="!hiddenColumns.includes('name')"
+          [nzFilterMultiple]="true"
+          [nzFilters]="filters['name'].list"
+          [nzFilterFn]="filters['name'].fn"
+          (nzFilterChange)="onFilterChange('name', $event)">
+          类型
+        </th>
+        <th nzColumnKey="state" nzWidth="170px"
+          *ngIf="!hiddenColumns.includes('state')"
+          [nzFilterMultiple]="true"
+          [nzFilters]="filters['state'].list"
+          [nzFilterFn]="filters['state'].fn"
+          (nzFilterChange)="onFilterChange('state', $event)">
+          状态
+        </th>
+        <th nzColumnKey="node" *ngIf="!hiddenColumns.includes('node')">Node</th>
+        <th nzColumnKey="runTime" *ngIf="!hiddenColumns.includes('runTime')" [nzSortFn]="runTimeSortFn">运行时长</th>
+        <th nzColumnKey="versions" *ngIf="!hiddenColumns.includes('versions')">版本</th>
+        <th nzColumnKey="labels" *ngIf="!hiddenColumns.includes('labels')">标签</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container>
+        <tr *ngFor="let runner of dataTable.data">
+          <td *ngIf="!hiddenColumns.includes('alias')">
+            <a [routerLink]="['/business/monitor/runner-detail', runner.id]">
+              {{ runner.alias }}
+            </a><br/>
+            <span style="color: rgba(0,0,0,0.25)">{{ runner.id }}</span>
+          </td>
+          <td *ngIf="!hiddenColumns.includes('cluster')">
+            <span (click)="addFilter('cluster', runner.scope)" style="cursor: pointer;">{{runner.scope}}</span>
+          </td>
+          <td *ngIf="!hiddenColumns.includes('name')">
+            <nz-tag (click)="addFilter('name', runner.name + '@' + runner.scope)" style="cursor: pointer;" [nzColor]="runner.type == 'worker'?'#2db7f5':'#108ee9'">{{runner.name}}@{{runner.scope}}</nz-tag>
+          </td>
+          <td *ngIf="!hiddenColumns.includes('state')">
+            <app-worker-state-badge (click)="addFilter('state', runner.data.state)"  [state]="runner.data.state" style="cursor: pointer;"></app-worker-state-badge>
+          </td>
+          <td *ngIf="!hiddenColumns.includes('node')">
+            <a *ngIf="runner.node" [routerLink]="['/business/monitor/node-detail', runner.node.meta.id]">
+              {{ runner.node.name }}
+            </a>
+          </td>
+          <td *ngIf="!hiddenColumns.includes('runTime')">
+            <span nz-tooltip [nzTooltipTitle]="runner.data.startTime | amFromUnix | amDateFormat: 'YYYY-MM-DD HH:mm:ss'">
+              {{ ((((time.$unixNow | async) || 0) - runner.data.startTime) | amDuration:'seconds') }}
+            </span>
+          </td>
+          <td *ngIf="!hiddenColumns.includes('versions')">
+            <ng-container *ngIf="runner.node">
+              app: {{ runner.node.meta.versions.app }} <br/> framework: {{ runner.node.meta.versions.framework}}
+            </ng-container>
+          </td>
+          <td *ngIf="!hiddenColumns.includes('labels')">
+            {{runner.labels | labelStringfiy}}
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</div>

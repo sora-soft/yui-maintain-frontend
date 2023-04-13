@@ -1,0 +1,85 @@
+<div class="container-root">
+  <div nz-row>
+    <div class="back-button-container" nz-col nzSpan="1">
+      <button nzShape="circle" nzSize="large" nz-button nzType="text" (click)="goBack()">
+        <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+      </button>
+    </div>
+
+    <div class="card-container" nz-col nzSpan="7">
+      <div>
+        <h3>NODE</h3>
+        <nz-card [routerLink]="['/business/monitor/node-detail', runner?.node?.id]" style="cursor: pointer;">
+          <app-worker-state-badge *ngIf="runner?.node" [state]="runner?.node?.meta?.state" [text]="runner?.node?.name"></app-worker-state-badge>
+          <br/>
+          <span style="color: rgba(0,0,0,0.25)">{{ runner?.node?.id }}</span>
+        </nz-card>
+      </div>
+    </div>
+    <div class="arrow-container" nz-col nzSpan="1">
+      <span nz-icon nzType="swap-right" nzTheme="outline"></span>
+    </div>
+    <div class="card-container" nz-col nzSpan="7">
+      <div>
+        <h3>{{runner?.type | uppercase}}</h3>
+        <nz-card class="active">
+          <app-worker-state-badge [state]="runner?.data?.state" [text]="runner?.name"></app-worker-state-badge>
+          <br/>
+          <span style="color: rgba(0,0,0,0.25)">{{ runner?.id }}</span>
+        </nz-card>
+      </div>
+    </div>
+    <div nz-col nzSpan="1"></div>
+    <div nz-col nzSpan="7"></div>
+  </div>
+
+  <div class="page-content">
+    <nz-descriptions nzTitle="基本信息" style="margin-top: 0;">
+      <nz-descriptions-item nzTitle="ID">{{runner?.id}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="类型">
+        {{runner?.type}}
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="类别">{{runner?.name}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="名称">{{runner?.alias}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="状态">
+        <app-worker-state-badge [state]="runner?.data?.state"></app-worker-state-badge>
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="标签">
+        {{runner?.labels | labelStringfiy}}
+      </nz-descriptions-item>
+    </nz-descriptions>
+
+    <nz-descriptions nzTitle="Listeners" *ngIf="runner?.type === 'service'">
+    </nz-descriptions>
+
+    <nz-table *ngIf="runner?.type === 'service'" #listenerTable [nzData]="($listeners | async) || []"
+      [nzShowPagination]="false">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>状态</th>
+          <th>协议</th>
+          <th>Endpoint</th>
+          <th>权重</th>
+          <th>标签</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of listenerTable.data">
+          <td>
+            <a [routerLink]="['/business/monitor/listener-detail', data.id]">
+              {{data.id}}
+            </a>
+          </td>
+          <td>
+            <app-listener-state-badge [state]="data.meta.state"></app-listener-state-badge>
+          </td>
+          <td>{{data.meta.protocol}}</td>
+          <td>{{data.meta.endpoint}}</td>
+          <td><nz-progress [nzPercent]="data.meta.weight" nzSize="small" nzStatus="normal"></nz-progress></td>
+          <td>{{data.meta.labels | labelStringfiy}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

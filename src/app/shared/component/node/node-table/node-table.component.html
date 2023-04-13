@@ -1,0 +1,78 @@
+<div style="height: 100%" class="table-container">
+  <nz-table nzShowSizeChanger
+      #dataTable
+      [nzData]="list"
+      [nzFrontPagination]="true"
+      [nzLoading]="loading"
+      [nzShowPagination]="true"
+      [nzTotal]="list.length"
+      [nzPageSize]="10"
+      [nzPageIndex]="pageIndex"
+      [nzScroll]="{y: '0'}">
+    <thead>
+      <tr>
+        <th nzWidth="60px"></th>
+        <th nzColumnKey="nickname" nzWidth="330px">名称</th>
+        <th nzColumnKey="cluster"
+          [nzFilterMultiple]="true" [nzFilters]="filters['cluster'].list"
+          [nzFilterFn]="filters['cluster'].fn"
+          (nzFilterChange)="onFilterChange('cluster', $event)">
+          集群
+        </th>
+        <th nzColumnKey="state" nzWidth="170px"
+          [nzFilterMultiple]="true" [nzFilters]="filters['state'].list"
+          [nzFilterFn]="filters['state'].fn"
+          (nzFilterChange)="onFilterChange('state', $event)">
+          状态
+        </th>
+        <th nzColumnKey="runTime" [nzSortFn]="runTimeSortFn">运行时长</th>
+        <th nzColumnKey="host"
+          [nzFilterMultiple]="true" [nzFilters]="filters['host'].list"
+          [nzFilterFn]="filters['host'].fn"
+          (nzFilterChange)="onFilterChange('host', $event)">
+          主机
+        </th>
+        <th nzColumnKey="versions">版本</th>
+        <th nzColumnKey="run-info">运行</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let node of dataTable.data">
+        <tr>
+          <td [nzShowExpand]="!!node.run" [nzExpand]="expandSet.has(node.meta.id)" (nzExpandChange)="onExpandChange(node.meta.id, $event)"></td>
+          <td>
+            <a [routerLink]="['/business/monitor/node-detail', node.meta.id]">
+              {{ node.name }}
+            </a><br/>
+            <span style="color: rgba(0,0,0,0.25)">{{ node.id }}</span>
+          </td>
+          <td>
+            <span (click)="addFilter('cluster', node.scope)" style="cursor: pointer;">{{node.scope}}</span>
+          </td>
+          <td>
+            <app-worker-state-badge [state]="node.meta.state" style="cursor: pointer;" (click)="addFilter('state', node?.meta?.state)"></app-worker-state-badge>
+          </td>
+          <td>
+            <span nz-tooltip [nzTooltipTitle]="node.meta.startTime | amFromUnix | amDateFormat: 'YYYY-MM-DD HH:mm:ss'">
+              {{ (((($now | async) || 0) - node.meta.startTime) | amDuration:'seconds') }}
+            </span>
+          </td>
+          <td><span style="cursor: pointer;" (click)="addFilter('host', node.meta.host)">{{ node.meta.host }}</span><br/><span style="color: rgba(0,0,0,0.25)">pid: {{ node.meta.pid }}</span></td>
+          <td>app: {{ node.meta.versions.app }} <br/> framework: {{node.meta.versions.framework}}</td>
+          <td>service: {{ node.services.length }} <br/> worker: {{ node.workers.length }} <br/> error: {{ node.runErrorCount }} </td>
+        </tr>
+        <tr [nzExpand]="expandSet.has(node.meta.id)">
+          <div class="expand-container" *ngIf="node.services?.length">
+            <strong>service</strong>
+            <app-worker-state-badge *ngFor="let service of node.services" [state]="service.data.state" [text]="service.data.name"></app-worker-state-badge>
+          </div>
+
+          <div class="expand-container" *ngIf="node.workers?.length">
+            <strong>worker</strong>
+            <app-worker-state-badge *ngFor="let worker of node.workers" [state]="worker.data.state" [text]="worker.data.name"></app-worker-state-badge>
+          </div>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</div>

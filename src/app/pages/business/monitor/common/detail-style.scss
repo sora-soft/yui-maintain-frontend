@@ -1,0 +1,73 @@
+.container-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .container-header {
+    padding: 10px;
+    font-size: 30px;
+
+    display: flex;
+    align-items: baseline;
+
+    button {
+      height: 40px;
+      width: 40px;
+      margin-right: 20px;
+      span {
+        font-size: 20px;
+      }
+    }
+  }
+  .container-content {
+    flex: 1;
+    padding: 20px;
+  }
+
+  .node-tag-container {
+    margin-left: 25px;
+  }
+}
+
+.back-button-container {
+  display: flex;
+  align-items: center;
+  button {
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+    span {
+      font-size: 20px;
+    }
+  }
+}
+
+.card-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+
+  nz-card {
+    min-width: 320px;
+    border-radius: 15px;
+    overflow: hidden;
+
+    &.active {
+      border: 1px solid #1890ff;
+    }
+  }
+}
+
+.arrow-container {
+  font-size: 36px;
+  display: flex;
+  align-items: center;
+  color: #b2b2b2;
+}
+
+.page-content {
+  flex: 1;
+  height: 0;
+  background-color: #FFF;
+  padding: 20px;
+  overflow: auto;
+}

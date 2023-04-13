@@ -1,0 +1,11 @@
+<div style="display: flex; height: 100%; flex-direction: column;">
+  <div nz-row class="page-header">
+    <h1 nz-col nzSpan="8">节点列表</h1>
+    <div class="page-operation" nz-col nzSpan="8" nzOffset="8">
+    </div>
+  </div>
+
+  <div class="page-content">
+    <app-node-table [list]="(cluster.$node | async) || []"></app-node-table>
+  </div>
+</div>

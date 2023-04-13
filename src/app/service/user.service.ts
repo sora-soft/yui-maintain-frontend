@@ -34,6 +34,9 @@ export enum AuthName {
   API_Account_Create = 'auth/createAccount',
   API_Account_Update = 'restful/update/account',
   API_Account_Disable = 'auth/disableAccount',
+
+  UI_Cluster = 'ui.cluster',
+  API_Monitor_Fetch = 'monitor/cluster',
 }
 
 export const AuthDependence: {
@@ -43,6 +46,8 @@ export const AuthDependence: {
   [AuthName.UI_Account_AuthGroup]: [AuthName.API_AuthGroup_Fetch, AuthName.UI_Account],
   [AuthName.API_Account_Update]: [AuthName.API_AuthGroup_Fetch],
   [AuthName.API_Account_Create]: [AuthName.API_AuthGroup_Fetch],
+  [AuthName.UI_Cluster]: [AuthName.API_Monitor_Fetch],
+  [AuthName.UI_Dashboard]: [AuthName.API_Monitor_Fetch],
 };
 
 export const AuthGroupList: IAuthGroup[] = [
@@ -67,6 +72,13 @@ export const AuthGroupList: IAuthGroup[] = [
     group: '仪表盘',
     permissions: [
       [AuthName.UI_Dashboard, '仪表盘页面']
+    ]
+  },
+  {
+    group: '集群监控',
+    permissions: [
+      [AuthName.UI_Cluster, '集群监控页面'],
+      [AuthName.API_Monitor_Fetch, '获取集群信息'],
     ]
   }
 ];

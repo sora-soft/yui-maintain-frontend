@@ -1,0 +1,14 @@
+<div class="component-container">
+  <nz-ribbon *ngFor="let component of components" [nzText]="component.ready ? '已就绪':'未启动'" [nzColor]="component.ready ? 'green':'grey'">
+    <nz-card [nzTitle]="component.name" nzSize="small">
+      <nz-descriptions [nzColumn]="1">
+        <nz-descriptions-item nzTitle="版本">
+          {{component.version}}
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="配置">
+        </nz-descriptions-item>
+      </nz-descriptions>
+      <app-json-options-tree [options]="component.options"></app-json-options-tree>
+    </nz-card>
+  </nz-ribbon>
+</div>

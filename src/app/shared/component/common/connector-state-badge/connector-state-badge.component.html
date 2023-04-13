@@ -1,0 +1,10 @@
+
+<ng-container [ngSwitch]="state">
+  <nz-badge *ngSwitchCase="ConnectorState.INIT" nzStatus="default" [nzText]="text ? text : '初始化'"></nz-badge>
+  <nz-badge *ngSwitchCase="ConnectorState.CONNECTING" nzStatus="processing" [nzText]="text ? text : '连接中'"></nz-badge>
+  <nz-badge *ngSwitchCase="ConnectorState.READY"  nzStatus="success" [nzText]="text ? text : '运行中'"></nz-badge>
+  <nz-badge *ngSwitchCase="ConnectorState.STOPPING" nzStatus="processing" [nzText]="text ? text : '正在停止'"></nz-badge>
+  <nz-badge *ngSwitchCase="ConnectorState.STOPPED" nzStatus="default" [nzText]="text ? text : '已停止'"></nz-badge>
+  <nz-badge *ngSwitchCase="ConnectorState.ERROR" nzStatus="error" [nzText]="text ? text : '错误'"></nz-badge>
+  <nz-badge *ngSwitchDefault nzStatus="default" [nzText]="text ? text : '未知'"></nz-badge>
+</ng-container>

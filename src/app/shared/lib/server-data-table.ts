@@ -3,7 +3,7 @@ import {NzTableQueryParams} from 'ng-zorro-antd/table';
 import {ServerService} from 'src/app/service/server/server.service'
 import {FindOptionsOrderValue, IReqFetch, ObjectLiteral} from 'src/app/service/server/api'
 
-abstract class DataTable<T extends ObjectLiteral> {
+abstract class ServerDataTable<T extends ObjectLiteral> {
 
   tableScroll = 0;
 
@@ -73,4 +73,4 @@ abstract class DataTable<T extends ObjectLiteral> {
   }
 }
 
-export {DataTable}
+export {ServerDataTable}

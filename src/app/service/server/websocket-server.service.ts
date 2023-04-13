@@ -22,7 +22,7 @@ export enum OPCode {
 export interface IRawReqPacket<T = unknown> {
   opcode: OPCode.REQUEST | OPCode.NOTIFY;
   method: string;
-  path: string;
+  service: string;
   headers: {
     [key: string]: any;
   };
@@ -67,6 +67,20 @@ export class WebsocketServerService extends ServerService {
     this.createWebsocketClient();
   }
 
+  protected createNotifyObserver<T>(name: string, subscribe: () => void, unsubscribe: () => void): Observable<T> {
+    const subject = new Subject<T>();
+    this.notifyPool_.set(name, subject as Subject<unknown>);
+    const observable = new Observable<T>(observer => {
+        subscribe()
+        const sub = subject.subscribe(observer);
+        return () => {
+            unsubscribe();
+            sub.unsubscribe();
+        }
+    });
+    return observable;
+  }
+
   protected createApi<Handler extends IRemoteHandler>(name: ServiceName): ConvertRouteMethod<Handler> {
     // return from
     return new Proxy({} as any, {
@@ -86,7 +100,8 @@ export class WebsocketServerService extends ServerService {
                   'rpc-authorization': this.token.token,
                 },
                 payload: body || {},
-                path: `${name}/${prop}`,
+                // path: `${name}/${prop}`,
+                service: name,
                 method: prop,
               });
               return subject;
@@ -105,10 +120,15 @@ export class WebsocketServerService extends ServerService {
         subscriber.complete();
         return;
       }
-      const client = this.client_ = webSocket<IRawNetPacket>(environment.websocketEndpoint);
+
+      let url = environment.websocketEndpoint;
+      if (url.startsWith('/')) {
+        url = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}${url}`;
+      }
+
+      const client = this.client_ = webSocket<IRawNetPacket>(url);
       client.subscribe({
         next: (message) => {
-          console.log(message);
           this.handleIncomeMessage(client, message);
         },
         error: () => {
@@ -129,6 +149,11 @@ export class WebsocketServerService extends ServerService {
       }
       case OPCode.RESPONSE: {
         this.handleResponse(client, message);
+        break;
+      }
+      case OPCode.NOTIFY: {
+        const subject = this.notifyPool_.get(message.method);
+        subject?.next(message.payload);
         break;
       }
     }
@@ -175,4 +200,5 @@ export class WebsocketServerService extends ServerService {
   private client_: WebSocketSubject<IRawNetPacket<unknown>> | null;
   private rpcId_ = 0;
   private subjectPool_ = new Map<number, Subject<unknown>>();
+  private notifyPool_ = new Map<string, Subject<unknown>>();
 }

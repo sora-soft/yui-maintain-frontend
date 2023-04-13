@@ -1,0 +1,9 @@
+.component-container {
+  display: flex;
+  flex-flow: wrap;
+
+  nz-ribbon {
+    width: 300px;
+    margin-right: 30px;
+  }
+}
