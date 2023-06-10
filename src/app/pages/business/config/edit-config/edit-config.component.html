@@ -1,0 +1,34 @@
+<div class="root-container">
+  <nz-page-header
+    (nzBack)="goBack()"
+    nzBackIcon
+    nzTitle="编辑配置文件"
+  >
+    <nz-page-header-extra>
+      <nz-space>
+        <button *nzSpaceItem nz-button nzType="primary" [disabled]="!hasDiff()" (click)="save()">保存</button>
+      </nz-space>
+    </nz-page-header-extra>
+  </nz-page-header>
+
+  <div class="editor-container">
+    <form nz-form [formGroup]="validateForm" style="width: 400px;">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">文件名</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="">
+          <input nz-input formControlName="name" id="name" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="type">类型</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-select formControlName="type">
+            <nz-option [nzValue]="1" nzLabel="YAML"></nz-option>
+            <nz-option [nzValue]="0" nzLabel="JSON"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+    <ngx-monaco-editor class="editor" [options]="editorOptions" [(ngModel)]="code" (onInit)="onEditorInit($event)"></ngx-monaco-editor>
+  </div>
+</div>

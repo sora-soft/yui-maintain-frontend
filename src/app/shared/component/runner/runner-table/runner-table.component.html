@@ -55,7 +55,9 @@
             <span (click)="addFilter('cluster', runner.scope)" style="cursor: pointer;">{{runner.scope}}</span>
           </td>
           <td *ngIf="!hiddenColumns.includes('name')">
-            <nz-tag (click)="addFilter('name', runner.name + '@' + runner.scope)" style="cursor: pointer;" [nzColor]="runner.type == 'worker'?'#2db7f5':'#108ee9'">{{runner.name}}@{{runner.scope}}</nz-tag>
+            <nz-tag (click)="addFilter('name', runner.name + '@' + runner.type + '@' + runner.scope)" style="cursor: pointer;" [nzColor]="runner.type == 'worker'?'#2db7f5':'#108ee9'">
+              {{runner.name}}
+            </nz-tag>
           </td>
           <td *ngIf="!hiddenColumns.includes('state')">
             <app-worker-state-badge (click)="addFilter('state', runner.data.state)"  [state]="runner.data.state" style="cursor: pointer;"></app-worker-state-badge>

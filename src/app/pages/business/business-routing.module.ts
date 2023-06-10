@@ -17,6 +17,10 @@ import { ServiceDetailComponent } from './monitor/service/service-detail/service
 import {ListenerDetailComponent} from './monitor/listener/listener-detail/listener-detail.component';
 import { NodeComponentsComponent } from './monitor/node/node-detail/node-components/node-components.component';
 import { NodeProvidersComponent } from './monitor/node/node-detail/node-providers/node-providers.component';
+import { ConfigComponent } from './config/config.component';
+import { ConfigListComponent } from './config/config-list/config-list.component';
+import { EditConfigComponent } from './config/edit-config/edit-config.component';
+import {ConfigDataResolveService} from './config/config-data-resolve.service';
 
 export const userResolver: ResolveFn<unknown> =
     (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -109,6 +113,28 @@ const routes: Routes = [
           {
             path: 'listener-detail/:id',
             component: ListenerDetailComponent,
+          }
+        ]
+      },
+      {
+        path: 'config',
+        component: ConfigComponent,
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'config-list',
+          },
+          {
+            path: 'config-list',
+            component: ConfigListComponent,
+          },
+          {
+            path: 'edit/:name',
+            component: EditConfigComponent,
+            resolve: {
+              file: ConfigDataResolveService
+            }
           }
         ]
       }

@@ -15,6 +15,7 @@ import {NzMessageModule} from 'ng-zorro-antd/message';
 import {ServerService} from './service/server/server.service';
 import {HttpServerService} from './service/server/http-server.service';
 import {WebsocketServerService} from './service/server/websocket-server.service';
+import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 
 registerLocaleData(zh);
 
@@ -29,6 +30,7 @@ registerLocaleData(zh);
     HttpClientModule,
     BrowserAnimationsModule,
     NzMessageModule,
+    MonacoEditorModule.forRoot(),
   ],
   providers: [
     { provide: ErrorHandler, useClass: ErrorHandlerService },

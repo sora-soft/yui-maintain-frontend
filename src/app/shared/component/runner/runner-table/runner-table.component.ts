@@ -26,10 +26,10 @@ export class RunnerTableComponent {
     const nameSet = new Set<string>();
     for (const node of value) {
       clusterSet.add(node.scope);
-      nameSet.add(`${node.name}@${node.scope}`);
+      nameSet.add(`${node.name}@${node.type}@${node.scope}`);
     }
     this.filters['cluster'].list = [...clusterSet].map((name) => ({text: name, value: name, byDefault: this.filters['cluster'].selected.includes(name)}));
-    this.filters['name'].list = [...nameSet].map((name) => ({text: name, value: name, byDefault: this.filters['name'].selected.includes(name)}));
+    this.filters['name'].list = [...nameSet].map((name) => ({text: name.split('@')[0], value: name, byDefault: this.filters['name'].selected.includes(name)}));
   }
 
   get list() {
@@ -80,7 +80,8 @@ export class RunnerTableComponent {
       fn: (list: string[], node: ClusterRunner) => {
         if (!list.length)
           return true;
-        return list.includes(`${node.name}@${node.scope}`);
+        //runner.name + '@' + runner.type + '@' + runner.scope
+        return list.includes(`${node.name}@${node.type}@${node.scope}`);
       },
       selected: [] as string[],
     }
@@ -93,6 +94,8 @@ export class RunnerTableComponent {
   };
 
   addFilter(prop: string, value?: unknown) {
+    console.log(prop);
+    console.log(value);
     if (this.filters[prop]) {
       this.filters[prop].list = this.filters[prop].list.map((filter) => {
         if (value && filter.value === value) {

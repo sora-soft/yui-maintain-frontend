@@ -1,0 +1,8 @@
+<form nz-form [formGroup]="validateForm">
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="name">名称</nz-form-label>
+    <nz-form-control nzErrorTip="请输入配置名称!">
+      <input nz-input formControlName="name" id="name" />
+    </nz-form-control>
+  </nz-form-item>
+</form>

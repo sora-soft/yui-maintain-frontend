@@ -1,0 +1,19 @@
+<div style="display: flex; height: 100%; flex-direction: column;">
+  <div nz-row class="page-header">
+    <h1 nz-col nzSpan="8">配置文件</h1>
+    <div class="page-operation" nz-col nzSpan="8" nzOffset="8">
+      <button nz-button nzSize="large" nzShape="round" (click)="updateData()">
+        <span nz-icon nzType="reload" nzTheme="outline"></span>
+      </button>
+      <button nz-button nzType="primary" nzSize="large" nzShape="round"
+        (click)="createConfigFile()">
+        <span nz-icon nzType="plus"></span>
+        创建配置
+      </button>
+    </div>
+  </div>
+
+  <div class="page-content">
+    <app-config-table></app-config-table>
+  </div>
+</div>

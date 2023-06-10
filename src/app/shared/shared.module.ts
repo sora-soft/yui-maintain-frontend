@@ -20,7 +20,6 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { EditAccountGroupComponent } from './component/account/edit-account-group/edit-account-group.component';
 import { EditAccountComponent } from './component/account/edit-account/edit-account.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { CreateAccountComponent } from './component/account/create-account/create-account.component';
 import { AuthDirective } from './directive/auth.directive';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NodeTableComponent } from './component/node/node-table/node-table.component';
@@ -41,6 +40,8 @@ import { ProviderTableComponent } from './component/node/provider-table/provider
 import { ConnectorStateBadgeComponent } from './component/common/connector-state-badge/connector-state-badge.component';
 import { FilterStringfiyPipe } from './pipe/filter-stringfiy.pipe';
 import {NzProgressModule} from 'ng-zorro-antd/progress';
+import { ConfigTableComponent } from './component/config/config-table/config-table.component';
+import { CreateConfigComponent } from './component/config/create-config/create-config.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,6 @@ import {NzProgressModule} from 'ng-zorro-antd/progress';
     UpdateAccountGroupComponent,
     EditAccountGroupComponent,
     EditAccountComponent,
-    CreateAccountComponent,
     AuthDirective,
     NodeTableComponent,
     WorkerStateBadgeComponent,
@@ -62,6 +62,8 @@ import {NzProgressModule} from 'ng-zorro-antd/progress';
     ProviderTableComponent,
     ConnectorStateBadgeComponent,
     FilterStringfiyPipe,
+    ConfigTableComponent,
+    CreateConfigComponent,
   ],
   imports: [
     CommonModule,
@@ -106,6 +108,8 @@ import {NzProgressModule} from 'ng-zorro-antd/progress';
     ProviderTableComponent,
     ConnectorStateBadgeComponent,
     FilterStringfiyPipe,
+    ConfigTableComponent,
+    CreateConfigComponent,
   ]
 })
 export class SharedModule { }

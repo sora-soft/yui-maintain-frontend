@@ -36,6 +36,14 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NodeComponentsComponent } from './monitor/node/node-detail/node-components/node-components.component';
 import { NodeProvidersComponent } from './monitor/node/node-detail/node-providers/node-providers.component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { ConfigComponent } from './config/config.component';
+import { ConfigListComponent } from './config/config-list/config-list.component';
+import { EditConfigComponent } from './config/edit-config/edit-config.component';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NzInputModule} from 'ng-zorro-antd/input';
+import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
+import {NzSelectModule} from 'ng-zorro-antd/select';
 
 @NgModule({
   declarations: [
@@ -54,12 +62,18 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     ListenerDetailComponent,
     NodeComponentsComponent,
     NodeProvidersComponent,
+    ConfigComponent,
+    ConfigListComponent,
+    EditConfigComponent,
   ],
   imports: [
     CommonModule,
     BusinessRoutingModule,
     NzLayoutModule,
+    ReactiveFormsModule,
+    FormsModule,
     NzFormModule,
+    NzInputModule,
     NzMenuModule,
     NzIconModule,
     NzGridModule,
@@ -77,6 +91,9 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzTableModule,
     NzProgressModule,
     NzSpaceModule,
+    NzPageHeaderModule,
+    MonacoEditorModule,
+    NzSelectModule,
   ],
   providers: [BusinessCanActivate]
 })

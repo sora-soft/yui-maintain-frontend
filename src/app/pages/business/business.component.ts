@@ -52,6 +52,10 @@ export class BusinessComponent implements OnInit, OnDestroy {
       auth: [AuthName.UI_Cluster],
     }]
   }, {
+    icon: 'file-text',
+    name: '配置文件',
+    link: '/business/config'
+  }, {
     icon: 'user',
     name: '用户管理',
     auth: [AuthName.UI_Account],

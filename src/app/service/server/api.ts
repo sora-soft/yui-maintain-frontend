@@ -37,6 +37,18 @@ export declare class Account {
     createTime: number;
     disabled: boolean;
 }
+export enum ConfigFileType {
+    JSON = 0,
+    YAML = 1,
+    RAW = 2
+}
+export declare class ConfigFile {
+    name: string;
+    context: string;
+    type: ConfigFileType;
+    createTime: number;
+    updateTime: number;
+}
 export declare class AuthHandler {
     fetchAccountList(): Promise<{
         list: Account[];
@@ -92,6 +104,13 @@ export interface IReqForgetPassword {
     id: string;
     code: string;
     password: string;
+}
+export declare class ConfigHandler {
+    fetchConfig(body: IReqFetchConfig): Promise<unknown>;
+}
+export interface IReqFetchConfig {
+    name: string;
+    [k: string]: string;
 }
 export declare class GatewayHandler {
     register(body: IRegisterReq): Promise<{
@@ -408,7 +427,8 @@ export enum ServiceName {
     Restful = "restful",
     Auth = "auth",
     Monitor = "monitor",
-    Node = "node"
+    Node = "node",
+    Config = "config"
 }
 export enum UserErrorCode {
     ERR_DUPLICATE_USERNAME = "ERR_DUPLICATE_USERNAME",
@@ -429,5 +449,6 @@ export enum UserErrorCode {
     ERR_AUTH_DENY = "ERR_AUTH_DENY",
     ERR_DB_NOT_FOUND = "ERR_DB_NOT_FOUND",
     ERR_SERVER_INTERNAL = "ERR_SERVER_INTERNAL",
-    ERR_NOTIFY_NOT_ENALBED_IN_THIS_CLIENT = "ERR_NOTIFY_NOT_ENALBED_IN_THIS_CLIENT"
+    ERR_NOTIFY_NOT_ENALBED_IN_THIS_CLIENT = "ERR_NOTIFY_NOT_ENALBED_IN_THIS_CLIENT",
+    ERR_CONFIG_FILE_NOT_FOUND = "ERR_CONFIG_FILE_NOT_FOUND"
 }

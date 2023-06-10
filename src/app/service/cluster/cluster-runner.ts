@@ -1,7 +1,4 @@
-import {BehaviorSubject, Observable} from 'rxjs';
-import {IListenerMetaData, IServiceMetaData, IWorkerMetaData} from '../server/api';
-import {ClusterListener} from './cluster-listener';
-import {ClusterNode} from './cluster-node';
+import {IServiceMetaData, IWorkerMetaData} from '../server/api';
 import {ClusterService} from './cluster.service';
 
 export enum ClusterRunnerType {

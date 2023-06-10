@@ -46,7 +46,6 @@ export class NodeDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.preRoute = this.routeHistory.getPrevious('/business/monitor/node-detail');
-    console.log('preRoute', this.preRoute);
   }
 
   ngOnDestroy(): void {
