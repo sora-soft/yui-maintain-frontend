@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
+import {Router} from '@angular/router';
 import {NzModalService} from 'ng-zorro-antd/modal';
+import {AuthName} from 'src/app/service/user.service';
 import {ConfigTableComponent} from 'src/app/shared/component/config/config-table/config-table.component';
 import {CreateConfigComponent} from 'src/app/shared/component/config/create-config/create-config.component';
 
@@ -9,11 +11,14 @@ import {CreateConfigComponent} from 'src/app/shared/component/config/create-conf
   styleUrls: ['./config-list.component.scss']
 })
 export class ConfigListComponent {
+  AuthName = AuthName;
+
   @ViewChild(ConfigTableComponent)
   table: ConfigTableComponent | null = null;
 
   constructor(
     private modal: NzModalService,
+    private router: Router,
   ) { }
 
   createConfigFile() {
@@ -23,7 +28,7 @@ export class ConfigListComponent {
     }).afterClose.subscribe({
       next: (result) => {
         if (result && this.table) {
-          this.table.updateData();
+          this.router.navigate(['/business/config/edit', result.name])
         }
       }
     });

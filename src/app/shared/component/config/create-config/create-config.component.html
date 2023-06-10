@@ -5,4 +5,14 @@
       <input nz-input formControlName="name" id="name" />
     </nz-form-control>
   </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="type">类型</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="type">
+        <nz-option [nzValue]="1" nzLabel="YAML"></nz-option>
+        <nz-option [nzValue]="0" nzLabel="JSON"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
 </form>

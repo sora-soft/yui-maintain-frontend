@@ -34,6 +34,11 @@ export enum AuthName {
   API_Account_Create = 'auth/createAccount',
   API_Account_Update = 'restful/update/account',
   API_Account_Disable = 'auth/disableAccount',
+  UI_Config = 'ui.config',
+  API_Config_Fetch = 'restful/fetch/config-file',
+  API_Config_Create = 'restful/insert/config-file',
+  API_Config_Update = 'restful/update/config-file',
+  API_Config_Delete = 'restful/delete/config-file',
 
   UI_Cluster = 'ui.cluster',
   API_Monitor_Fetch = 'monitor/cluster',
@@ -48,6 +53,7 @@ export const AuthDependence: {
   [AuthName.API_Account_Create]: [AuthName.API_AuthGroup_Fetch],
   [AuthName.UI_Cluster]: [AuthName.API_Monitor_Fetch],
   [AuthName.UI_Dashboard]: [AuthName.API_Monitor_Fetch],
+  [AuthName.UI_Config]: [AuthName.API_Config_Fetch],
 };
 
 export const AuthGroupList: IAuthGroup[] = [
@@ -79,6 +85,16 @@ export const AuthGroupList: IAuthGroup[] = [
     permissions: [
       [AuthName.UI_Cluster, '集群监控页面'],
       [AuthName.API_Monitor_Fetch, '获取集群信息'],
+    ]
+  },
+  {
+    group: '配置文件',
+    permissions: [
+      [AuthName.UI_Config, '配置文件管理页面'],
+      [AuthName.API_Config_Fetch, '获取配置文件'],
+      [AuthName.API_Config_Create, '创建配置文件'],
+      [AuthName.API_Config_Update, '更新配置文件'],
+      [AuthName.API_Config_Delete, '删除配置文件'],
     ]
   }
 ];

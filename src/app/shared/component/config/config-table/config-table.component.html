@@ -16,7 +16,8 @@
         <td>{{ data.updateTime | date: 'YYYY-MM-dd hh:mm:ss' }}</td>
         <td>{{ data.createTime | date: 'YYYY-MM-dd hh:mm:ss' }}</td>
         <td>
-          <button nz-button nzType="link" [routerLink]="['/business/config/edit', data.name]">编辑</button>
+          <button nz-button nzType="link" [routerLink]="['/business/config/edit', data.name]" *auth="[AuthName.API_Config_Update]">编辑</button>
+          <button nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确认删除此配置文件?" (nzOnConfirm)="deleteConfigFile(data)" *auth="[AuthName.API_Config_Delete]">删除</button>
         </td>
       </tr>
     </tbody>

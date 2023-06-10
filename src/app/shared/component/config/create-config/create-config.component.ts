@@ -29,12 +29,14 @@ export class CreateConfigComponent {
           return false;
         }
 
+        const data = this.validateForm.value;
+
         this.server.restful.insert({
           db: 'config-file',
-          data: this.validateForm.value,
+          data,
         }).subscribe({
           next: () => {
-            this.ref.close(true);
+            this.ref.close(data);
           },
           error: (err) => {
             this.errorHandler.handleError(err);
@@ -47,6 +49,7 @@ export class CreateConfigComponent {
 
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
+      type: [1],
       context: ['']
     });
   }
