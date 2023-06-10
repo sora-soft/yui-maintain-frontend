@@ -39,18 +39,10 @@ export class BusinessComponent implements OnInit, OnDestroy {
     name: '仪表盘',
     link: '/business/dashboard',
   }, {
-    icon: 'monitor',
-    name: '集群监控',
-    link: '/business/monitor',
-    children: [{
-      name: '节点',
-      link: '/business/monitor/node-list',
+      name: '集群监控',
+      icon: 'monitor',
+      link: '/business/monitor/cluster-list',
       auth: [AuthName.UI_Cluster],
-    }, {
-      name: '服务',
-      link: '/business/monitor/runner-list',
-      auth: [AuthName.UI_Cluster],
-    }]
   }, {
     icon: 'file-text',
     name: '配置文件',

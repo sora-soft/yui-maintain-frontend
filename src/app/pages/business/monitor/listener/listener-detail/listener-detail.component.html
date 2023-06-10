@@ -1,48 +1,5 @@
 <div class="container-root">
-  <div nz-row>
-    <div class="back-button-container" nz-col nzSpan="1">
-      <button nzShape="circle" nzSize="large" nz-button nzType="text" (click)="goBack()">
-        <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
-      </button>
-    </div>
-
-    <div class="card-container" nz-col nzSpan="7">
-      <div>
-        <h3>NODE</h3>
-        <nz-card [routerLink]="['/business/monitor/node-detail', listener?.node?.id]" style="cursor: pointer;">
-          <app-worker-state-badge [state]="listener?.node?.meta?.state" [text]="listener?.node?.name"></app-worker-state-badge>
-          <br/>
-          <span style="color: rgba(0,0,0,0.25)">{{ listener?.node?.id }}</span>
-        </nz-card>
-      </div>
-    </div>
-    <div class="arrow-container" nz-col nzSpan="1">
-      <span nz-icon nzType="swap-right" nzTheme="outline"></span>
-    </div>
-    <div class="card-container" nz-col nzSpan="7">
-      <div>
-        <h3>{{listener?.service?.type | uppercase}}</h3>
-        <nz-card [routerLink]="['/business/monitor/runner-detail', listener?.service?.id]" style="cursor: pointer;">
-          <app-worker-state-badge [state]="listener?.service?.data?.state" [text]="listener?.service?.name"></app-worker-state-badge>
-          <br/>
-          <span style="color: rgba(0,0,0,0.25)">{{ listener?.service?.id }}</span>
-        </nz-card>
-      </div>
-    </div>
-    <div class="arrow-container" nz-col nzSpan="1">
-      <span nz-icon nzType="swap-right" nzTheme="outline"></span>
-    </div>
-    <div class="card-container" nz-col nzSpan="7">
-      <div>
-        <h3>LISTENER</h3>
-        <nz-card class="active">
-          <app-listener-state-badge [state]="listener?.meta?.state" [text]="listener?.meta?.protocol"></app-listener-state-badge>
-          <br/>
-          <span style="color: rgba(0,0,0,0.25)">{{ listener?.meta?.endpoint }}</span>
-        </nz-card>
-      </div>
-    </div>
-  </div>
+  <app-cluster-breadcrumb [cluster]="listener?.node?.scope" [node]="listener?.node" [runner]="listener?.service" [listener]="listener"></app-cluster-breadcrumb>
 
   <div class="page-content">
     <nz-descriptions nzTitle="基本信息" style="margin-top: 0;">

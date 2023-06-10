@@ -44,6 +44,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 import {NzSelectModule} from 'ng-zorro-antd/select';
+import { ClusterListComponent } from './monitor/cluster/cluster-list/cluster-list.component';
+import { ClusterDetailComponent } from './monitor/cluster/cluster-detail/cluster-detail.component';
+import { ClusterNodesComponent } from './monitor/cluster/cluster-detail/cluster-nodes/cluster-nodes.component';
+import { ClusterRunnersComponent } from './monitor/cluster/cluster-detail/cluster-runners/cluster-runners.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +69,10 @@ import {NzSelectModule} from 'ng-zorro-antd/select';
     ConfigComponent,
     ConfigListComponent,
     EditConfigComponent,
+    ClusterListComponent,
+    ClusterDetailComponent,
+    ClusterNodesComponent,
+    ClusterRunnersComponent,
   ],
   imports: [
     CommonModule,

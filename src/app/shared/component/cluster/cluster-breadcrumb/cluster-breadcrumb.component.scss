@@ -1,0 +1,24 @@
+.card-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+
+  nz-card {
+    min-width: 210px;
+    border-radius: 15px;
+    overflow: hidden;
+
+    &.active {
+      border: 1px solid #1890ff;
+    }
+  }
+}
+
+.arrow-container {
+  font-size: 36px;
+  display: flex;
+  align-items: center;
+  color: #b2b2b2;
+  position: relative;
+  top: 15px;
+}

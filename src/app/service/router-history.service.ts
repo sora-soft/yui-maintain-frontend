@@ -19,12 +19,10 @@ export class RouterHistoryService {
   start() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        console.log('push envet');
         const pre = this.history.at(-1);
         if (pre && pre.url === event.urlAfterRedirects)
           return;
         this.history.push({id: event.id, url: event.urlAfterRedirects});
-        console.log(this.history);
       };
     });
   }

@@ -14,26 +14,32 @@
         <th nzWidth="60px"></th>
         <th nzColumnKey="nickname" nzWidth="330px">名称</th>
         <th nzColumnKey="cluster"
+          *ngIf="!hiddenColumns.includes('cluster')"
           [nzFilterMultiple]="true" [nzFilters]="filters['cluster'].list"
           [nzFilterFn]="filters['cluster'].fn"
           (nzFilterChange)="onFilterChange('cluster', $event)">
           集群
         </th>
         <th nzColumnKey="state" nzWidth="170px"
+          *ngIf="!hiddenColumns.includes('state')"
           [nzFilterMultiple]="true" [nzFilters]="filters['state'].list"
           [nzFilterFn]="filters['state'].fn"
           (nzFilterChange)="onFilterChange('state', $event)">
           状态
         </th>
-        <th nzColumnKey="runTime" [nzSortFn]="runTimeSortFn">运行时长</th>
+        <th nzColumnKey="runTime" [nzSortFn]="runTimeSortFn"
+          *ngIf="!hiddenColumns.includes('runTime')">运行时长</th>
         <th nzColumnKey="host"
+          *ngIf="!hiddenColumns.includes('host')"
           [nzFilterMultiple]="true" [nzFilters]="filters['host'].list"
           [nzFilterFn]="filters['host'].fn"
           (nzFilterChange)="onFilterChange('host', $event)">
           主机
         </th>
-        <th nzColumnKey="versions">版本</th>
-        <th nzColumnKey="run-info">运行</th>
+        <th nzColumnKey="versions"
+        *ngIf="!hiddenColumns.includes('versions')">版本</th>
+        <th nzColumnKey="run-info"
+        *ngIf="!hiddenColumns.includes('runInfo')">运行</th>
       </tr>
     </thead>
     <tbody>
@@ -46,20 +52,22 @@
             </a><br/>
             <span style="color: rgba(0,0,0,0.25)">{{ node.id }}</span>
           </td>
-          <td>
+          <td *ngIf="!hiddenColumns.includes('cluster')">
             <span (click)="addFilter('cluster', node.scope)" style="cursor: pointer;">{{node.scope}}</span>
           </td>
-          <td>
+          <td *ngIf="!hiddenColumns.includes('state')">
             <app-worker-state-badge [state]="node.meta.state" style="cursor: pointer;" (click)="addFilter('state', node?.meta?.state)"></app-worker-state-badge>
           </td>
-          <td>
+          <td *ngIf="!hiddenColumns.includes('runTime')">
             <span nz-tooltip [nzTooltipTitle]="node.meta.startTime | amFromUnix | amDateFormat: 'YYYY-MM-DD HH:mm:ss'">
               {{ (((($now | async) || 0) - node.meta.startTime) | amDuration:'seconds') }}
             </span>
           </td>
-          <td><span style="cursor: pointer;" (click)="addFilter('host', node.meta.host)">{{ node.meta.host }}</span><br/><span style="color: rgba(0,0,0,0.25)">pid: {{ node.meta.pid }}</span></td>
-          <td>app: {{ node.meta.versions.app }} <br/> framework: {{node.meta.versions.framework}}</td>
-          <td>service: {{ node.services.length }} <br/> worker: {{ node.workers.length }} <br/> error: {{ node.runErrorCount }} </td>
+          <td *ngIf="!hiddenColumns.includes('host')">
+            <span style="cursor: pointer;" (click)="addFilter('host', node.meta.host)">{{ node.meta.host }}</span><br/><span style="color: rgba(0,0,0,0.25)">pid: {{ node.meta.pid }}</span>
+          </td>
+          <td *ngIf="!hiddenColumns.includes('versions')">app: {{ node.meta.versions.app }} <br/> framework: {{node.meta.versions.framework}}</td>
+          <td *ngIf="!hiddenColumns.includes('runInfo')">service: {{ node.services.length }} <br/> worker: {{ node.workers.length }} <br/> error: {{ node.runErrorCount }} </td>
         </tr>
         <tr [nzExpand]="expandSet.has(node.meta.id)">
           <div class="expand-container" *ngIf="node.services?.length">

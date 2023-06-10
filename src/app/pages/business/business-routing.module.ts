@@ -21,6 +21,10 @@ import { ConfigComponent } from './config/config.component';
 import { ConfigListComponent } from './config/config-list/config-list.component';
 import { EditConfigComponent } from './config/edit-config/edit-config.component';
 import {ConfigDataResolveService} from './config/config-data-resolve.service';
+import {ClusterListComponent} from './monitor/cluster/cluster-list/cluster-list.component';
+import {ClusterDetailComponent} from './monitor/cluster/cluster-detail/cluster-detail.component';
+import {ClusterNodesComponent} from './monitor/cluster/cluster-detail/cluster-nodes/cluster-nodes.component';
+import { ClusterRunnersComponent } from './monitor/cluster/cluster-detail/cluster-runners/cluster-runners.component';
 
 export const userResolver: ResolveFn<unknown> =
     (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -69,7 +73,30 @@ const routes: Routes = [
           {
             path: '',
             pathMatch: 'full',
-            redirectTo: 'node-list'
+            redirectTo: 'cluster-list'
+          },
+          {
+            path: 'cluster-list',
+            component: ClusterListComponent,
+          },
+          {
+            path: 'cluster-detail/:name',
+            component: ClusterDetailComponent,
+            children: [
+              {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'nodes',
+              },
+              {
+                path: 'nodes',
+                component: ClusterNodesComponent,
+              },
+              {
+                path: 'runners',
+                component: ClusterRunnersComponent,
+              }
+            ]
           },
           {
             path: 'node-list',

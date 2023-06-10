@@ -5,7 +5,7 @@
   </h2>
   <nz-row  [nzGutter]="16">
     <nz-col [nzSpan]="4">
-      <nz-card nzHoverable [routerLink]="['/business/monitor/node-list']">
+      <nz-card nzHoverable>
         <nz-statistic
           [nzValue]="(cluster.$node | async)!.length"
           nzTitle="节点"
@@ -13,7 +13,7 @@
       </nz-card>
     </nz-col>
     <nz-col [nzSpan]="4">
-      <nz-card nzHoverable [routerLink]="['/business/monitor/runner-list']">
+      <nz-card nzHoverable>
         <nz-statistic
           [nzValue]="((cluster.$runner | async)?.length | number: '1.0-2')!"
           nzTitle="Service&Worker"
@@ -27,39 +27,7 @@
   </h2>
   <nz-row [nzGutter]="16">
     <nz-col [nzSpan]="10" *ngFor="let cluster of $clusterList | async">
-      <nz-card [nzTitle]="cluster.scope">
-        <nz-descriptions nzTitle="运行状态" [nzColumn]="1">
-          <nz-descriptions-item nzTitle="Node">
-            <nz-space [nzWrap]="true" [nzSize]="20">
-              <ng-container *ngFor="let node of cluster.$nodes | async">
-                <a [routerLink]="['/business/monitor/node-detail', node.id]" *nzSpaceItem>
-                  <app-worker-state-badge [state]="node.meta.state" [text]="node.name"></app-worker-state-badge>
-                </a>
-              </ng-container>
-            </nz-space>
-          </nz-descriptions-item>
-          <nz-descriptions-item nzTitle="Service">
-            <nz-space [nzWrap]="true" [nzSize]="20">
-              <ng-container *ngFor="let runner of cluster.$services | async">
-                <a [routerLink]="['/business/monitor/runner-detail', runner.id]" *nzSpaceItem>
-                  <app-worker-state-badge [state]="runner.data.state" [text]="runner.name"></app-worker-state-badge>
-                </a>
-              </ng-container>
-            </nz-space>
-            <span *ngIf="!(cluster.$services | async)!.length">-</span>
-          </nz-descriptions-item>
-          <nz-descriptions-item nzTitle="Worker">
-            <nz-space [nzWrap]="true" [nzSize]="20">
-              <ng-container *ngFor="let runner of cluster.$workers | async">
-                <a [routerLink]="['/business/monitor/runner-detail', runner.id]" *nzSpaceItem>
-                  <app-worker-state-badge [state]="runner.data.state" [text]="runner.name"></app-worker-state-badge>
-                </a>
-              </ng-container>
-            </nz-space>
-            <span *ngIf="!(cluster.$workers | async)!.length">-</span>
-          </nz-descriptions-item>
-        </nz-descriptions>
-      </nz-card>
+      <app-cluster-card [cluster]="cluster"></app-cluster-card>
     </nz-col>
   </nz-row>
 </div>

@@ -1,0 +1,48 @@
+<div nz-row>
+  <div class="card-container" nz-col nzSpan="5">
+    <div>
+      <h3>集群</h3>
+      <nz-card [routerLink]="['/business/monitor/cluster-detail', cluster]" style="cursor: pointer;">
+        {{cluster}}
+      </nz-card>
+    </div>
+  </div>
+  <div class="arrow-container" nz-col nzSpan="1">
+    <span nz-icon nzType="swap-right" nzTheme="outline"></span>
+  </div>
+  <div class="card-container" nz-col nzSpan="5">
+    <div>
+      <h3>NODE</h3>
+      <nz-card [routerLink]="['/business/monitor/node-detail', node?.id]" style="cursor: pointer;">
+        <app-worker-state-badge *ngIf="node" [state]="node.meta.state" [text]="node?.name"></app-worker-state-badge>
+      </nz-card>
+    </div>
+  </div>
+  <div class="arrow-container" nz-col nzSpan="1">
+    <ng-container *ngIf="runner">
+      <span nz-icon nzType="swap-right" nzTheme="outline"></span>
+    </ng-container>
+  </div>
+  <div class="card-container" nz-col nzSpan="5">
+    <div *ngIf="runner">
+      <h3>{{runner.type | uppercase}}</h3>
+      <nz-card [routerLink]="['/business/monitor/runner-detail', runner.id]" style="cursor: pointer;">
+        <app-worker-state-badge [state]="runner.data?.state" [text]="runner.name"></app-worker-state-badge>
+      </nz-card>
+    </div>
+  </div>
+  <div class="arrow-container" nz-col nzSpan="1">
+    <ng-container *ngIf="listener">
+      <span nz-icon nzType="swap-right" nzTheme="outline"></span>
+    </ng-container>
+  </div>
+  <div class="card-container" nz-col nzSpan="5">
+    <div *ngIf="listener">
+      <h3>LISTENER</h3>
+      <nz-card class="active">
+        <app-listener-state-badge [state]="listener?.meta?.state"
+          [text]="listener?.meta?.protocol"></app-listener-state-badge>
+      </nz-card>
+    </div>
+  </div>
+</div>

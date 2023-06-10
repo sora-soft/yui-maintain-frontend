@@ -1,0 +1,31 @@
+<div class="container-root">
+  <div class="container-header">
+    <button nzShape="circle" nzSize="large" nz-button nzType="text" (click)="goBack()">
+      <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+    </button>
+    <div>
+      {{name}}
+    </div>
+  </div>
+
+  <ul nz-menu nzMode="horizontal">
+    <li nz-menu-item routerLinkActive #detailRla="routerLinkActive" [nzSelected]="detailRla.isActive">
+      <a [routerLink]="['/business/monitor/cluster-detail', name, 'nodes']">
+        Node
+      </a>
+    </li>
+    <li nz-menu-item routerLinkActive #runnerRla="routerLinkActive" [nzSelected]="runnerRla.isActive">
+      <a [routerLink]="['/business/monitor/cluster-detail', name, 'runners']">
+        Services & Workers
+      </a>
+    </li>
+    <!-- <li nz-menu-item routerLinkActive #configRla="routerLinkActive" [nzSelected]="configRla.isActive">
+      <a [routerLink]="['/business/monitor/cluster-detail', name, 'config']">
+        配置文件
+      </a>
+    </li> -->
+  </ul>
+  <div class="container-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

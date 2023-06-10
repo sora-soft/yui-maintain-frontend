@@ -1,0 +1,30 @@
+<a [routerLink]="['/business/monitor/cluster-detail/', cluster.scope]">
+  <nz-card [nzTitle]="cluster.scope">
+    <nz-descriptions nzTitle="运行状态" [nzColumn]="1">
+      <nz-descriptions-item nzTitle="Node">
+        <nz-space [nzWrap]="true" [nzSize]="20">
+
+          <ng-container *ngFor="let node of cluster.$nodes | async">
+            <app-worker-state-badge [state]="node.meta.state" [text]="node.name" *nzSpaceItem></app-worker-state-badge>
+          </ng-container>
+        </nz-space>
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Service">
+        <nz-space [nzWrap]="true" [nzSize]="20">
+          <ng-container *ngFor="let runner of cluster.$services | async">
+            <app-worker-state-badge [state]="runner.data.state" [text]="runner.name" *nzSpaceItem></app-worker-state-badge>
+          </ng-container>
+        </nz-space>
+        <span *ngIf="!(cluster.$services | async)!.length">-</span>
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="Worker">
+        <nz-space [nzWrap]="true" [nzSize]="20">
+          <ng-container *ngFor="let runner of cluster.$workers | async">
+            <app-worker-state-badge [state]="runner.data.state" [text]="runner.name" *nzSpaceItem></app-worker-state-badge>
+          </ng-container>
+        </nz-space>
+        <span *ngIf="!(cluster.$workers | async)!.length">-</span>
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </nz-card>
+</a>

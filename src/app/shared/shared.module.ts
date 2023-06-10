@@ -42,6 +42,10 @@ import { FilterStringfiyPipe } from './pipe/filter-stringfiy.pipe';
 import {NzProgressModule} from 'ng-zorro-antd/progress';
 import { ConfigTableComponent } from './component/config/config-table/config-table.component';
 import { CreateConfigComponent } from './component/config/create-config/create-config.component';
+import { ClusterCardComponent } from './component/cluster/cluster-card/cluster-card.component';
+import {NzDescriptionsModule} from 'ng-zorro-antd/descriptions';
+import {NzSpaceModule} from 'ng-zorro-antd/space';
+import { ClusterBreadcrumbComponent } from './component/cluster/cluster-breadcrumb/cluster-breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +68,8 @@ import { CreateConfigComponent } from './component/config/create-config/create-c
     FilterStringfiyPipe,
     ConfigTableComponent,
     CreateConfigComponent,
+    ClusterCardComponent,
+    ClusterBreadcrumbComponent,
   ],
   imports: [
     CommonModule,
@@ -91,6 +97,8 @@ import { CreateConfigComponent } from './component/config/create-config/create-c
     NzIconModule,
     NzProgressModule,
     RouterModule.forChild([]),
+    NzDescriptionsModule,
+    NzSpaceModule,
   ],
   exports: [
     AccountTableComponent,
@@ -110,6 +118,8 @@ import { CreateConfigComponent } from './component/config/create-config/create-c
     FilterStringfiyPipe,
     ConfigTableComponent,
     CreateConfigComponent,
+    ClusterCardComponent,
+    ClusterBreadcrumbComponent,
   ]
 })
 export class SharedModule { }

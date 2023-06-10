@@ -23,6 +23,9 @@ export class NodeTableComponent {
   list_: ClusterNode[] = [];
 
   @Input()
+  hiddenColumns: string[] = [];
+
+  @Input()
   set list(value: ClusterNode[]) {
     this.list_ = value;
     const clusterSet = new Set<string>();

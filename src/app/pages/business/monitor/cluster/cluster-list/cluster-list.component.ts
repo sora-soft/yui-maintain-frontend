@@ -1,28 +1,20 @@
 import { Component } from '@angular/core';
 import {Observable, map} from 'rxjs';
-import {ClusterNode} from 'src/app/service/cluster/cluster-node';
-import {ClusterRunner, ClusterRunnerType} from 'src/app/service/cluster/cluster-runner';
+import {ClusterRunnerType} from 'src/app/service/cluster/cluster-runner';
 import {ClusterService} from 'src/app/service/cluster/cluster.service';
-import {WorkerState} from 'src/app/service/server/api';
 import {IClusterData} from 'src/app/shared/component/cluster/cluster-card/cluster-card.component';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  selector: 'app-cluster-list',
+  templateUrl: './cluster-list.component.html',
+  styleUrls: ['./cluster-list.component.scss']
 })
-export class DashboardComponent {
-  WorkerState = WorkerState;
-
-  $runningNode: Observable<ClusterNode[]>;
+export class ClusterListComponent {
   $clusterList: Observable<IClusterData[]>;
 
   constructor(
     public cluster: ClusterService,
   ) {
-    this.$runningNode = this.cluster.$node.pipe(
-      map(list => list.filter(node => node.meta.state === WorkerState.READY)),
-    );
 
     this.$clusterList = this.cluster.$cluster.pipe(
       map(list => list.map((scope) => {
@@ -43,5 +35,4 @@ export class DashboardComponent {
       }))
     )
   }
-
 }
