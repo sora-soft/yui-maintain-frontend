@@ -1,0 +1,4 @@
+<ng-container [ngSwitch]="server.$state | async">
+  <nz-badge *ngSwitchCase="ServerState.DISCONNECTED" nzStatus="error"></nz-badge>
+  <nz-badge *ngSwitchCase="ServerState.CONNECTED" nzStatus="success"></nz-badge>
+</ng-container>

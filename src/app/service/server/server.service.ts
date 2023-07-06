@@ -1,4 +1,4 @@
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {ErrorLevel} from '../error/ErrorUtil';
 import {AuthHandler, GatewayHandler, MonitorHandler, RestfulHandler, ServiceName, UserErrorCode} from './api';
 
@@ -23,11 +23,18 @@ export interface IResNetResponse<T> {
   result: T;
 }
 
+export enum ServerState {
+  DISCONNECTED,
+  CONNECTED,
+}
+
 export abstract class ServerService {
   gateway: ConvertRouteMethod<GatewayHandler>;
   restful: ConvertRouteMethod<RestfulHandler>;
   auth: ConvertRouteMethod<AuthHandler>;
   monitor: ConvertRouteMethod<MonitorHandler>;
+
+  $state = new BehaviorSubject(ServerState.DISCONNECTED);
 
   constructor() {
     this.gateway = this.createApi(ServiceName.HttpGateway);

@@ -1,7 +1,7 @@
 import { Injectable, ErrorHandler, NgZone } from '@angular/core';
-import {BehaviorSubject, filter, map, Subscription} from 'rxjs';
+import {BehaviorSubject, distinctUntilChanged, filter, map, Subscription, timeout} from 'rxjs';
 import {IListenerMetaData, INodeClientNotifyHandler, INodeMetaData, INodeRunData, IServiceMetaData, IWorkerMetaData, NotifyUpdateType} from '../server/api';
-import { ServerService } from '../server/server.service';
+import { ServerService, ServerState } from '../server/server.service';
 import {ClusterNode} from './cluster-node';
 import {ClusterRunner, ClusterRunnerType} from './cluster-runner';
 import {ClusterListener} from './cluster-listener';
@@ -22,11 +22,7 @@ export class ClusterService {
     this.ready = false;
   }
 
-  startup() {
-    this.nodeMap_ = new Map();
-    this.runnerMap_ = new Map();
-    this.listenerMap_ = new Map();
-
+  startNotify() {
     this.clusterSubscription_ = this.server.notify<INodeClientNotifyHandler>().notifyClusterUpdate(() => {
       this.server.monitor.registerClusterUpdate().subscribe((res) => {
         for (const meta of res.nodeMetaData) {
@@ -53,7 +49,7 @@ export class ClusterService {
         this.onNodeUpdate();
         this.onRunnerUpdate();
         this.onListenerUpdate();
-      })
+      });
     }, () => {
       this.server.monitor.unregisterClusterUpdate().subscribe();
     }).subscribe((notify) => {
@@ -119,8 +115,31 @@ export class ClusterService {
     });
   }
 
+  startup() {
+    this.nodeMap_ = new Map();
+    this.runnerMap_ = new Map();
+    this.listenerMap_ = new Map();
+
+    this.startNotify();
+
+    this.serverSubscription_ = this.server.$state
+    .pipe(
+      distinctUntilChanged()
+    ).subscribe((state) => {
+      switch(state) {
+        case ServerState.DISCONNECTED:
+          setTimeout(() => {
+            this.startNotify();
+          }, 5000);
+      }
+    });
+  }
+
   shutdown() {
-    this.clusterSubscription_.unsubscribe();
+    if (this.clusterSubscription_)
+      this.clusterSubscription_.unsubscribe();
+    if (this.serverSubscription_)
+      this.serverSubscription_.unsubscribe();
   }
 
   getNode(id: string) {
@@ -209,7 +228,8 @@ export class ClusterService {
     this.$listener.next([...this.listenerMap_].map(([_, listener]) => listener));
   }
 
-  private clusterSubscription_: Subscription;
+  private clusterSubscription_?: Subscription;
+  private serverSubscription_: Subscription;
   private nodeMap_: Map<string, ClusterNode>;
   private runnerMap_: Map<string, ClusterRunner>;
   private listenerMap_: Map<string, ClusterListener>;

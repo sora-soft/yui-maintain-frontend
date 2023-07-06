@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {ServiceName, UserErrorCode} from './api';
-import {ConvertRouteMethod, IRemoteHandler, ServerService} from './server.service';
+import {ConvertRouteMethod, IRemoteHandler, ServerService, ServerState} from './server.service';
 import { environment } from 'src/environments/environment';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import {ErrorLevel} from '../error/ErrorUtil';
@@ -9,6 +9,8 @@ import {exhaustAll, from, map, Observable, Subject, timeout} from 'rxjs';
 import {TokenService} from './token.service';
 import {UserError} from '../error/UserError';
 import {ServerError} from '../error/ServerError';
+import {ErrorString} from '../error/ErrorString';
+import {BaseError} from '../error/BaseError';
 
 export type IRawNetPacket<T = unknown> = IRawReqPacket<T> | IRawResPacket<unknown> | IRawOperationPacket;
 
@@ -98,6 +100,7 @@ export class WebsocketServerService extends ServerService {
                 headers: {
                   'rpc-id': this.rpcId_,
                   'rpc-authorization': this.token.token,
+                  'authorization': `sora-session ${this.token.token}`
                 },
                 payload: body || {},
                 // path: `${name}/${prop}`,
@@ -131,12 +134,26 @@ export class WebsocketServerService extends ServerService {
         next: (message) => {
           this.handleIncomeMessage(client, message);
         },
-        error: () => {
+        error: (err) => {
           this.client_ = null;
+          for(const [rpcId, subject] of this.subjectPool_) {
+            subject.error(new BaseError(err.message, 'ERR_NET'));
+            this.subjectPool_.delete(rpcId);
+          }
+          this.$state.next(ServerState.DISCONNECTED);
+        },
+        complete: () => {
+          this.client_ = null;
+          for(const [rpcId, subject] of this.subjectPool_) {
+            subject.error(new BaseError('ERR_NET', 'ERR_NET'));
+            this.subjectPool_.delete(rpcId);
+          }
+          this.$state.next(ServerState.DISCONNECTED);
         }
       });
       subscriber.next(client);
       subscriber.complete();
+      this.$state.next(ServerState.CONNECTED);
     });
     return observable;
   }
@@ -165,6 +182,8 @@ export class WebsocketServerService extends ServerService {
 
     if (!subject)
       return;
+
+    this.subjectPool_.delete(rpcId);
 
     if (message.payload.error) {
       let error: Error | null = null;

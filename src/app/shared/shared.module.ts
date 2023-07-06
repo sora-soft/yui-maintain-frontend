@@ -46,6 +46,7 @@ import { ClusterCardComponent } from './component/cluster/cluster-card/cluster-c
 import {NzDescriptionsModule} from 'ng-zorro-antd/descriptions';
 import {NzSpaceModule} from 'ng-zorro-antd/space';
 import { ClusterBreadcrumbComponent } from './component/cluster/cluster-breadcrumb/cluster-breadcrumb.component';
+import { NetworkStateComponent } from './component/common/network-state/network-state.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { ClusterBreadcrumbComponent } from './component/cluster/cluster-breadcru
     CreateConfigComponent,
     ClusterCardComponent,
     ClusterBreadcrumbComponent,
+    NetworkStateComponent,
   ],
   imports: [
     CommonModule,
@@ -120,6 +122,7 @@ import { ClusterBreadcrumbComponent } from './component/cluster/cluster-breadcru
     CreateConfigComponent,
     ClusterCardComponent,
     ClusterBreadcrumbComponent,
+    NetworkStateComponent,
   ]
 })
 export class SharedModule { }
