@@ -1,8 +1,8 @@
-import {Location} from '@angular/common';
 import { Component, ErrorHandler } from '@angular/core';
 import { FormBuilder, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {Router} from '@angular/router';
 import { ServerService } from 'src/app/service/server/server.service';
+import {Md5} from 'ts-md5';
 
 @Component({
   selector: 'app-register',
@@ -34,7 +34,7 @@ export class RegisterComponent {
       const value = this.validateForm.value;
       this.server.gateway.register({
         username: value.username,
-        password: value.password,
+        password: new Md5().appendStr(this.validateForm.value.password).end() as string,
         email: value.email,
         nickname: value.nickname,
       }).subscribe({

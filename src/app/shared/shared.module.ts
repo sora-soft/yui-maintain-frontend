@@ -47,6 +47,7 @@ import {NzDescriptionsModule} from 'ng-zorro-antd/descriptions';
 import {NzSpaceModule} from 'ng-zorro-antd/space';
 import { ClusterBreadcrumbComponent } from './component/cluster/cluster-breadcrumb/cluster-breadcrumb.component';
 import { NetworkStateComponent } from './component/common/network-state/network-state.component';
+import { ResetAccountPasswordComponent } from './component/account/reset-account-password/reset-account-password.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { NetworkStateComponent } from './component/common/network-state/network-
     ClusterCardComponent,
     ClusterBreadcrumbComponent,
     NetworkStateComponent,
+    ResetAccountPasswordComponent,
   ],
   imports: [
     CommonModule,

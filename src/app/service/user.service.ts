@@ -7,9 +7,8 @@ import {TokenService} from './server/token.service';
 
 export interface IUserInfo {
   id: number;
-  username: string;
-  email: string;
-  nickname: string;
+  nickname?: string;
+  avatarUrl?: string;
 }
 
 export interface IAuthGroup {
@@ -34,6 +33,8 @@ export enum AuthName {
   API_Account_Create = 'auth/createAccount',
   API_Account_Update = 'restful/update/account',
   API_Account_Disable = 'auth/disableAccount',
+  API_Account_Reset_Password = 'auth/resetPassword',
+
   UI_Config = 'ui.config',
   API_Config_Fetch = 'restful/fetch/config-file',
   API_Config_Create = 'restful/insert/config-file',
@@ -71,7 +72,8 @@ export const AuthGroupList: IAuthGroup[] = [
       [AuthName.API_AuthGroup_Insert, '新建用户组'],
       [AuthName.API_AuthGroup_Update, '更新用户组'],
       [AuthName.API_AuthGroup_Permission, '修改用户组权限'],
-      [AuthName.API_AuthGroup_Delete, '删除用户组']
+      [AuthName.API_AuthGroup_Delete, '删除用户组'],
+      [AuthName.API_Account_Reset_Password, '重设用户密码'],
     ]
   },
   {
@@ -114,6 +116,10 @@ export class UserService {
 
   get nickname() {
     return this.userInfo?.nickname;
+  }
+
+  get accountId() {
+    return this.userInfo?.id;
   }
 
   login(info: IUserInfo, permissions: AuthPermission[], token: string, expireAt: number) {

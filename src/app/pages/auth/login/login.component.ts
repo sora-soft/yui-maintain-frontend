@@ -1,6 +1,7 @@
 import { Component, ErrorHandler } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {Router} from '@angular/router';
+import {AccountLoginType} from 'src/app/service/server/api';
 import { ServerService } from 'src/app/service/server/server.service';
 import { UserService } from 'src/app/service/user.service';
 import {Md5} from 'ts-md5';
@@ -31,7 +32,10 @@ export class LoginComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
+      const emailTest = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
       this.server.gateway.login({
+        type: emailTest.test(this.validateForm.value.username) ? AccountLoginType.EMAIL : AccountLoginType.USERNAME,
         ...this.validateForm.value,
         password: new Md5().appendStr(this.validateForm.value.password).end(),
       }).subscribe({

@@ -36,6 +36,8 @@ export abstract class ServerService {
 
   $state = new BehaviorSubject(ServerState.DISCONNECTED);
 
+  $state = new BehaviorSubject(ServerState.DISCONNECTED);
+
   constructor() {
     this.gateway = this.createApi(ServiceName.HttpGateway);
     this.restful = this.createApi(ServiceName.Restful);

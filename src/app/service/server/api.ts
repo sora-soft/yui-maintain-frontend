@@ -1,14 +1,19 @@
-export declare class AccountPassword {
-    id: number;
-    username: string;
-    password: string;
-    salt: string;
-}
 export declare class AccountToken {
     session: string;
     expireAt: number;
     accountId: number;
     gid: string;
+}
+export enum AccountLoginType {
+    USERNAME = 1,
+    EMAIL = 2
+}
+export declare class AccountLogin {
+    id: number;
+    type: AccountLoginType;
+    username: string;
+    password: string;
+    salt: string;
 }
 export enum PermissionResult {
     ALLOW = 1,
@@ -29,10 +34,9 @@ export declare class AuthGroup {
 }
 export declare class Account {
     id: number;
-    nickname: string;
-    email: string;
-    userPass: AccountPassword;
-    group: AuthGroup;
+    nickname?: string;
+    avatarUrl?: string;
+    group?: AuthGroup;
     gid: string;
     createTime: number;
     disabled: boolean;
@@ -77,7 +81,6 @@ export interface IReqUpdateAccount {
     accountId: number;
     gid?: string;
     nickname?: string;
-    email?: string;
 }
 export interface IReqDisableAccount {
     accountId: number;
@@ -113,15 +116,14 @@ export interface IReqFetchConfig {
     [k: string]: string;
 }
 export declare class GatewayHandler {
-    register(body: IRegisterReq): Promise<{
+    register(body: IReqRegister): Promise<{
         id: number;
     }>;
-    login(body: ILoginReq): Promise<{
+    login(body: IReqLogin): Promise<{
         account: {
             id: number;
-            username: string;
-            email: string;
-            nickname: string;
+            nickname: string | undefined;
+            avatarUrl: string | undefined;
         };
         permissions: AuthPermission[];
         authorization: {
@@ -132,9 +134,8 @@ export declare class GatewayHandler {
     info(body: void): Promise<{
         account: {
             id: number;
-            username: string;
-            email: string;
-            nickname: string;
+            nickname: string | undefined;
+            avatarUrl: string | undefined;
         };
         permissions: AuthPermission[];
         authorization: {
@@ -144,15 +145,17 @@ export declare class GatewayHandler {
     }>;
     logout(body: void): Promise<{}>;
 }
-export interface IRegisterReq {
+export interface IReqRegister {
     username: string;
     password: string;
-    nickname: string;
     email: string;
+    nickname?: string;
+    avatarUrl?: string;
 }
-export interface ILoginReq {
+export interface IReqLogin {
     username: string;
     password: string;
+    type: AccountLoginType;
     remember: boolean;
 }
 export declare class GatewayServerHandler {
@@ -431,8 +434,7 @@ export enum ServiceName {
     Config = "config"
 }
 export enum UserErrorCode {
-    ERR_DUPLICATE_USERNAME = "ERR_DUPLICATE_USERNAME",
-    ERR_DUPLICATE_EMAIL = "ERR_DUPLICATE_EMAIL",
+    ERR_DUPLICATE_REGISTER = "ERR_DUPLICATE_REGISTER",
     ERR_USERNAME_NOT_FOUND = "ERR_USERNAME_NOT_FOUND",
     ERR_WRONG_PASSWORD = "ERR_WRONG_PASSWORD",
     ERR_PARAMETERS_INVALID = "ERR_PARAMETERS_INVALID",
