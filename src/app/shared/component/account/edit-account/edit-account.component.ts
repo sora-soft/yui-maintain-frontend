@@ -36,7 +36,7 @@ export class EditAccountComponent {
     if (this.account) {
       this.validateForm = this.fb.group({
         nickname: [this.account?.nickname, [Validators.required]],
-        email: [this.account?.email, [Validators.required]],
+        // email: [this.account?.email, [Validators.required]],
         gid: [this.account?.gid],
       });
     } else {
@@ -66,7 +66,7 @@ export class EditAccountComponent {
           this.server.auth.updateAccount({
             accountId: this.account.id,
             nickname: value.nickname,
-            email: value.email,
+            // email: value.email,
             gid: value.gid,
           }).subscribe({
             next: () => {

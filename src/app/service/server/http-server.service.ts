@@ -1,7 +1,7 @@
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {catchError, map} from 'rxjs';
+import {catchError, map, Observable, Subject} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {ErrorLevel} from '../error/ErrorUtil';
 import {NetError} from '../error/NetError';
@@ -24,16 +24,25 @@ export class HttpServerService extends ServerService {
     super();
   }
 
+  createNotifyObserver<T>(name: string, subscribe: () => void, unsubscribe: () => void): Observable<T> {
+    throw new Error('HttpClient not support notify observer');
+  }
+
   protected createApi<Handler extends IRemoteHandler>(name: ServiceName): ConvertRouteMethod<Handler> {
     return new Proxy({} as any, {
       get: (target, prop: string, receiver) => {
         return (body: unknown) => {
+          let header: HttpHeaders = new HttpHeaders();
+          console.log(this.token.token)
+          if (this.token.token) {
+            header = header.set('authorization', `sora-rpc-authorization ${this.token.token}`);
+            header = header.set('rpc-authorization', this.token.token);
+          }
+
           return this.http.post<IResNetResponse<unknown>>(`${environment.httpEndpoint}${name}/${prop}`, body || {}, {
             withCredentials: true,
             observe: 'response',
-            headers: {
-              'rpc-authorization': this.token.token ? this.token.token : '',
-            }
+            headers: header,
           }).pipe(
             catchError((error: Error) => {
               throw new NetError(error.message);

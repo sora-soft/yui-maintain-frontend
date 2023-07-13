@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {ServiceName, UserErrorCode} from './api';
-import {ConvertRouteMethod, IRemoteHandler, ServerService} from './server.service';
+import {ConvertRouteMethod, IRemoteHandler, ServerService, ServerState} from './server.service';
 import { environment } from 'src/environments/environment';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import {ErrorLevel} from '../error/ErrorUtil';
@@ -9,6 +9,8 @@ import {exhaustAll, from, map, Observable, Subject, timeout} from 'rxjs';
 import {TokenService} from './token.service';
 import {UserError} from '../error/UserError';
 import {ServerError} from '../error/ServerError';
+import {ErrorString} from '../error/ErrorString';
+import {BaseError} from '../error/BaseError';
 
 export type IRawNetPacket<T = unknown> = IRawReqPacket<T> | IRawResPacket<unknown> | IRawOperationPacket;
 
@@ -22,7 +24,7 @@ export enum OPCode {
 export interface IRawReqPacket<T = unknown> {
   opcode: OPCode.REQUEST | OPCode.NOTIFY;
   method: string;
-  path: string;
+  service: string;
   headers: {
     [key: string]: any;
   };
@@ -67,6 +69,20 @@ export class WebsocketServerService extends ServerService {
     this.createWebsocketClient();
   }
 
+  protected createNotifyObserver<T>(name: string, subscribe: () => void, unsubscribe: () => void): Observable<T> {
+    const subject = new Subject<T>();
+    this.notifyPool_.set(name, subject as Subject<unknown>);
+    const observable = new Observable<T>(observer => {
+        subscribe()
+        const sub = subject.subscribe(observer);
+        return () => {
+            unsubscribe();
+            sub.unsubscribe();
+        }
+    });
+    return observable;
+  }
+
   protected createApi<Handler extends IRemoteHandler>(name: ServiceName): ConvertRouteMethod<Handler> {
     // return from
     return new Proxy({} as any, {
@@ -84,9 +100,11 @@ export class WebsocketServerService extends ServerService {
                 headers: {
                   'rpc-id': this.rpcId_,
                   'rpc-authorization': this.token.token,
+                  'authorization': `sora-session ${this.token.token}`
                 },
                 payload: body || {},
-                path: `${name}/${prop}`,
+                // path: `${name}/${prop}`,
+                service: name,
                 method: prop,
               });
               return subject;
@@ -105,18 +123,37 @@ export class WebsocketServerService extends ServerService {
         subscriber.complete();
         return;
       }
-      const client = this.client_ = webSocket<IRawNetPacket>(environment.websocketEndpoint);
+
+      let url = environment.websocketEndpoint;
+      if (url.startsWith('/')) {
+        url = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}${url}`;
+      }
+
+      const client = this.client_ = webSocket<IRawNetPacket>(url);
       client.subscribe({
         next: (message) => {
-          console.log(message);
           this.handleIncomeMessage(client, message);
         },
-        error: () => {
+        error: (err) => {
           this.client_ = null;
+          for(const [rpcId, subject] of this.subjectPool_) {
+            subject.error(new BaseError(err.message, 'ERR_NET'));
+            this.subjectPool_.delete(rpcId);
+          }
+          this.$state.next(ServerState.DISCONNECTED);
+        },
+        complete: () => {
+          this.client_ = null;
+          for(const [rpcId, subject] of this.subjectPool_) {
+            subject.error(new BaseError('ERR_NET', 'ERR_NET'));
+            this.subjectPool_.delete(rpcId);
+          }
+          this.$state.next(ServerState.DISCONNECTED);
         }
       });
       subscriber.next(client);
       subscriber.complete();
+      this.$state.next(ServerState.CONNECTED);
     });
     return observable;
   }
@@ -131,6 +168,11 @@ export class WebsocketServerService extends ServerService {
         this.handleResponse(client, message);
         break;
       }
+      case OPCode.NOTIFY: {
+        const subject = this.notifyPool_.get(message.method);
+        subject?.next(message.payload);
+        break;
+      }
     }
   }
 
@@ -140,6 +182,8 @@ export class WebsocketServerService extends ServerService {
 
     if (!subject)
       return;
+
+    this.subjectPool_.delete(rpcId);
 
     if (message.payload.error) {
       let error: Error | null = null;
@@ -175,4 +219,5 @@ export class WebsocketServerService extends ServerService {
   private client_: WebSocketSubject<IRawNetPacket<unknown>> | null;
   private rpcId_ = 0;
   private subjectPool_ = new Map<number, Subject<unknown>>();
+  private notifyPool_ = new Map<string, Subject<unknown>>();
 }

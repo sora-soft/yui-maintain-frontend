@@ -20,9 +20,9 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { EditAccountGroupComponent } from './component/account/edit-account-group/edit-account-group.component';
 import { EditAccountComponent } from './component/account/edit-account/edit-account.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { CreateAccountComponent } from './component/account/create-account/create-account.component';
 import { AuthDirective } from './directive/auth.directive';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { ResetAccountPasswordComponent } from './component/account/reset-account-password/reset-account-password.component';
 
 @NgModule({
   declarations: [
@@ -32,8 +32,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     UpdateAccountGroupComponent,
     EditAccountGroupComponent,
     EditAccountComponent,
-    CreateAccountComponent,
     AuthDirective,
+    ResetAccountPasswordComponent,
   ],
   imports: [
     CommonModule,

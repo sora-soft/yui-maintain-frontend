@@ -13,7 +13,7 @@
       <tr>
         <th nzColumnKey="nickname" [nzSortFn]="true">昵称</th>
         <th nzColumnKey="state">状态</th>
-        <th nzColumnKey="email">邮箱</th>
+        <!-- <th nzColumnKey="email">邮箱</th> -->
         <th nzColumnKey="group">用户组</th>
         <th nzColumnKey="operation" *auth="[AuthName.API_Account_Update]"></th>
       </tr>
@@ -29,11 +29,12 @@
             <nz-tag nzColor="default">正常</nz-tag>
           </ng-container>
         </td>
-        <td>{{ data.email }}</td>
-        <td>{{ data.group.name }}</td>
+        <!-- <td>{{ data.email }}</td> -->
+        <td>{{ data.group?.name }}</td>
         <td *auth="[AuthName.API_Account_Update, AuthName.API_Account_Disable]">
-          <button nz-button nzType="link" (click)="editAccount(data)" *auth="[AuthName.API_Account_Update]">编辑</button>
-          <button nz-button nzType="link" (click)="disableAccount(data)" *auth="[AuthName.API_Account_Disable]">{{data.disabled ? '启用' : '封禁'}}</button>
+          <button nz-button nzType="link" (click)="editAccount(data)" *auth="[AuthName.API_Account_Update]" [disabled]="user.accountId === data.id">编辑</button>
+          <button nz-button nzType="link" (click)="disableAccount(data)" *auth="[AuthName.API_Account_Disable]" [disabled]="user.accountId === data.id">{{data.disabled ? '启用' : '封禁'}}</button>
+          <button nz-button nzType="link" (click)="resetPassword(data)" *auth="[AuthName.API_Account_Reset_Password]">重设密码</button>
         </td>
       </tr>
     </tbody>
