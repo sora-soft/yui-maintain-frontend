@@ -44,7 +44,6 @@ export class ResetAccountPasswordComponent {
           return;
         }
 
-        console.log(this.validateForm.value.password);
         this.server.auth.resetPassword({
           id: this.account.id,
           password: new Md5().appendStr(this.validateForm.value.password).end() as string,

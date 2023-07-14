@@ -67,7 +67,6 @@ abstract class ServerDataTable<T extends ObjectLiteral> {
       error: (err) => {
         this.errorHandler_.handleError(err);
         this.loading = false;
-        console.log(err);
       }
     })
   }

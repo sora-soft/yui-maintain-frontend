@@ -33,7 +33,6 @@ export class HttpServerService extends ServerService {
       get: (target, prop: string, receiver) => {
         return (body: unknown) => {
           let header: HttpHeaders = new HttpHeaders();
-          console.log(this.token.token)
           if (this.token.token) {
             header = header.set('authorization', `sora-rpc-authorization ${this.token.token}`);
             header = header.set('rpc-authorization', this.token.token);

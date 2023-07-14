@@ -14,14 +14,12 @@ export class BusinessCanActivate implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log(132456);
     return this.server.gateway.info().pipe(
       map((result) => {
         this.user.login(result.account, result.permissions, result.authorization.token, result.authorization.expireAt);
         return true;
       }),
       catchError((err) => {
-        console.log(err);
         return of(false);
       }),
       map((result) => {

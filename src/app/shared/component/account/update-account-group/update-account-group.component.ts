@@ -24,7 +24,6 @@ export class UpdateAccountGroupComponent implements OnInit {
     private errorHandler: ErrorHandler,
     private message: NzMessageService,
   ) {
-    console.log(this.group);
     this.selectedPermissions = new Set();
     ref.updateConfig({
       nzTitle: '更新用户组权限',
@@ -52,7 +51,6 @@ export class UpdateAccountGroupComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.group);
     this.selectedPermissions = new Set(this.group?.permissions.filter((permission) => permission.permission === PermissionResult.ALLOW).map((permission) => permission.name as AuthName));
   }
 

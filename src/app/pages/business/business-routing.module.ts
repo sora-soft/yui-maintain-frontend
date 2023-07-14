@@ -28,7 +28,6 @@ import { ClusterRunnersComponent } from './monitor/cluster/cluster-detail/cluste
 
 export const userResolver: ResolveFn<unknown> =
     (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-      console.log('resolve')
       return inject(UserService).fetchUserInfo()
     };
 

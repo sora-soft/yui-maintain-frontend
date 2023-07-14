@@ -35,8 +35,8 @@ registerLocaleData(zh);
   providers: [
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     { provide: NZ_I18N, useValue: zh_CN },
-    // { provide: ServerService, useClass: WebsocketServerService },
-    { provide: ServerService, useClass: HttpServerService },
+    { provide: ServerService, useClass: WebsocketServerService },
+    // { provide: ServerService, useClass: HttpServerService },
   ],
   bootstrap: [AppComponent]
 })

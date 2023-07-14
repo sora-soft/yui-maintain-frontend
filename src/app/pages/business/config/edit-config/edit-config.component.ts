@@ -33,7 +33,6 @@ export class EditConfigComponent {
   ) {
     this.activatedRoute.data.subscribe({
       next: (d: unknown) => {
-        console.log(d);
         const data = d as {file: ConfigFile};
         const file = data.file as ConfigFile;
         this.code = file.context;

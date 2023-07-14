@@ -26,7 +26,6 @@ export class AccountGroupTableComponent extends ServerDataTable<AuthGroup> {
   }
 
   openPermissionModal(data: AuthGroup) {
-    console.log(data);
     this.modal.create({
       nzContent: UpdateAccountGroupComponent,
       nzComponentParams: {group: data},

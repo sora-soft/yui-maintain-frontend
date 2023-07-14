@@ -17,7 +17,6 @@ export class NodeComponentsComponent implements OnDestroy {
   ) {
     this.nodeSubscription_ = this.nodeDetail.$nodeDetail.subscribe((node) => {
       this.node = node;
-      console.log(this.node);
     });
   }
 

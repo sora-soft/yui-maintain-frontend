@@ -94,8 +94,6 @@ export class RunnerTableComponent {
   };
 
   addFilter(prop: string, value?: unknown) {
-    console.log(prop);
-    console.log(value);
     if (this.filters[prop]) {
       this.filters[prop].list = this.filters[prop].list.map((filter) => {
         if (value && filter.value === value) {
