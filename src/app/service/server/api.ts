@@ -2,7 +2,6 @@ export declare class AccountToken {
     session: string;
     expireAt: number;
     accountId: number;
-    gid: string;
 }
 export enum AccountLoginType {
     USERNAME = 1,
@@ -10,10 +9,10 @@ export enum AccountLoginType {
 }
 export declare class AccountLogin {
     id: number;
+    type: AccountLoginType;
     username: string;
     password: string;
     salt: string;
-    type: AccountLoginType;
 }
 export enum PermissionResult {
     ALLOW = 1,
@@ -36,10 +35,13 @@ export declare class Account {
     id: number;
     nickname?: string;
     avatarUrl?: string;
-    group?: AuthGroup;
-    gid: string;
+    groupList?: AuthGroup[];
     createTime: number;
     disabled: boolean;
+}
+export declare class AccountAuthGroup {
+    accountId: number;
+    groupId: string;
 }
 export declare class AuthHandler {
     fetchAccountList(): Promise<{
@@ -67,7 +69,7 @@ export interface IReqUpdatePermission {
 }
 export interface IReqUpdateAccount {
     accountId: number;
-    gid?: string;
+    groupList?: string[];
     nickname?: string;
 }
 export interface IReqDisableAccount {
@@ -81,7 +83,7 @@ export interface IReqCreateAccount {
     username: string;
     nickname: string;
     email: string;
-    gid: string;
+    groupList: string[];
     password: string;
 }
 export interface IReqResetPassword {
@@ -106,7 +108,10 @@ export declare class GatewayHandler {
             nickname: string | undefined;
             avatarUrl: string | undefined;
         };
-        permissions: AuthPermission[];
+        permissions: {
+            name: string;
+            permission: PermissionResult;
+        }[];
         authorization: {
             token: string;
             expireAt: number;
@@ -118,7 +123,10 @@ export declare class GatewayHandler {
             nickname: string | undefined;
             avatarUrl: string | undefined;
         };
-        permissions: AuthPermission[];
+        permissions: {
+            name: string;
+            permission: PermissionResult;
+        }[];
         authorization: {
             token: string;
             expireAt: number;

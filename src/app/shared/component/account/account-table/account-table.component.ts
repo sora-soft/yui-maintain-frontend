@@ -23,7 +23,7 @@ export class AccountTableComponent extends ServerDataTable<Account> {
     public user: UserService,
   ) {
     super('account', server, errorHandler, {
-      group: true,
+      groupList: true,
     }, []);
   }
 
@@ -68,5 +68,12 @@ export class AccountTableComponent extends ServerDataTable<Account> {
     }).afterClose.subscribe({
       next: () => {}
     })
+  }
+
+  accountAuthGroupName(list?: {name: string}[]) {
+    if (!list) {
+      return '';
+    }
+    return list.map(l => l.name).join(',');
   }
 }

@@ -6,6 +6,12 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item *ngIf="!account">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">邮箱</nz-form-label>
+    <nz-form-control nzErrorTip="请输入用户邮箱!">
+      <input nz-input formControlName="email" id="email" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item *ngIf="!account">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="password">密码</nz-form-label>
     <nz-form-control nzErrorTip="请输入用户密码!">
       <input nz-input formControlName="password" id="password" type="password" />
@@ -17,16 +23,10 @@
       <input nz-input formControlName="nickname" id="nickname" />
     </nz-form-control>
   </nz-form-item>
-  <!-- <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">邮箱</nz-form-label>
-    <nz-form-control nzErrorTip="请输入用户邮箱!">
-      <input nz-input formControlName="email" id="email" />
-    </nz-form-control>
-  </nz-form-item> -->
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="gid">权限组</nz-form-label>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="groupList">权限组</nz-form-label>
     <nz-form-control>
-      <nz-select formControlName="gid">
+      <nz-select formControlName="groupList" nzMode="multiple">
         <nz-option *ngFor="let group of authGroupList" [nzValue]="group.id" [nzLabel]="group.name"></nz-option>
       </nz-select>
     </nz-form-control>
