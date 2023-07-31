@@ -1,6 +1,6 @@
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {ErrorLevel} from '../error/ErrorUtil';
-import {AuthHandler, GatewayHandler, RestfulHandler, ServiceName, UserErrorCode} from './api';
+import {AuthHandler, RestfulHandler, ServiceName, UserErrorCode} from './api';
 
 // tslint:disable-next-line
 export interface IRemoteHandler {}
@@ -29,14 +29,12 @@ export enum ServerState {
 }
 
 export abstract class ServerService {
-  gateway: ConvertRouteMethod<GatewayHandler>;
   restful: ConvertRouteMethod<RestfulHandler>;
   auth: ConvertRouteMethod<AuthHandler>;
 
   $state = new BehaviorSubject(ServerState.DISCONNECTED);
 
   constructor() {
-    this.gateway = this.createApi(ServiceName.HttpGateway);
     this.restful = this.createApi(ServiceName.Restful);
     this.auth = this.createApi(ServiceName.Auth);
   }

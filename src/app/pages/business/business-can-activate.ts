@@ -14,7 +14,7 @@ export class BusinessCanActivate implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.server.gateway.info().pipe(
+    return this.server.auth.info().pipe(
       map((result) => {
         this.user.login(result.account, result.permissions, result.authorization.token, result.authorization.expireAt);
         return true;

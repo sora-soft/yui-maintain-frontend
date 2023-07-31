@@ -41,9 +41,45 @@ export declare class Account {
 }
 export declare class AccountAuthGroup {
     accountId: number;
+    account?: Account;
     groupId: string;
+    authGroup?: AuthGroup;
 }
 export declare class AuthHandler {
+    register(body: IReqRegister): Promise<{
+        id: number;
+    }>;
+    login(body: IReqLogin): Promise<{
+        account: {
+            id: number;
+            nickname: string | undefined;
+            avatarUrl: string | undefined;
+        };
+        permissions: {
+            name: string;
+            permission: PermissionResult;
+        }[];
+        authorization: {
+            token: string;
+            expireAt: number;
+        };
+    }>;
+    info(body: void): Promise<{
+        account: {
+            id: number;
+            nickname: string | undefined;
+            avatarUrl: string | undefined;
+        };
+        permissions: {
+            name: string;
+            permission: PermissionResult;
+        }[];
+        authorization: {
+            token: string;
+            expireAt: number;
+        };
+    }>;
+    logout(body: void): Promise<{}>;
     fetchAccountList(): Promise<{
         list: Account[];
     }>;
@@ -59,6 +95,19 @@ export declare class AuthHandler {
         id: string;
     }>;
     forgetPassword(body: IReqForgetPassword): Promise<{}>;
+}
+export interface IReqRegister {
+    username: string;
+    password: string;
+    email: string;
+    nickname?: string;
+    avatarUrl?: string;
+}
+export interface IReqLogin {
+    username: string;
+    password: string;
+    type: AccountLoginType;
+    remember: boolean;
 }
 export interface IReqUpdatePermission {
     gid: string;
@@ -97,55 +146,6 @@ export interface IReqForgetPassword {
     id: string;
     code: string;
     password: string;
-}
-export declare class GatewayHandler {
-    register(body: IReqRegister): Promise<{
-        id: number;
-    }>;
-    login(body: IReqLogin): Promise<{
-        account: {
-            id: number;
-            nickname: string | undefined;
-            avatarUrl: string | undefined;
-        };
-        permissions: {
-            name: string;
-            permission: PermissionResult;
-        }[];
-        authorization: {
-            token: string;
-            expireAt: number;
-        };
-    }>;
-    info(body: void): Promise<{
-        account: {
-            id: number;
-            nickname: string | undefined;
-            avatarUrl: string | undefined;
-        };
-        permissions: {
-            name: string;
-            permission: PermissionResult;
-        }[];
-        authorization: {
-            token: string;
-            expireAt: number;
-        };
-    }>;
-    logout(body: void): Promise<{}>;
-}
-export interface IReqRegister {
-    username: string;
-    password: string;
-    email: string;
-    nickname?: string;
-    avatarUrl?: string;
-}
-export interface IReqLogin {
-    username: string;
-    password: string;
-    type: AccountLoginType;
-    remember: boolean;
 }
 export declare class RestfulHandler {
     fetch<T extends ObjectLiteral>(body: IReqFetch<T>): Promise<{

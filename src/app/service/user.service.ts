@@ -136,7 +136,7 @@ export class UserService {
   }
 
   fetchUserInfo() {
-    return this.server.gateway.info().subscribe({
+    return this.server.auth.info().subscribe({
       next: (result) => {
         this.userInfo = result.account;
         this.loadPermission(result.permissions);

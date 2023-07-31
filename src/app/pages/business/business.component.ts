@@ -39,7 +39,7 @@ export class BusinessComponent {
   }]
 
   logout() {
-    this.server.gateway.logout().subscribe({
+    this.server.auth.logout().subscribe({
       next: () => {
         this.router.navigate(['/auth/login']);
       },
