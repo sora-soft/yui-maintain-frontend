@@ -34,7 +34,7 @@ export class LoginComponent {
     if (this.validateForm.valid) {
       const emailTest = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-      this.server.gateway.login({
+      this.server.auth.login({
         type: emailTest.test(this.validateForm.value.username) ? AccountLoginType.EMAIL : AccountLoginType.USERNAME,
         ...this.validateForm.value,
         password: new Md5().appendStr(this.validateForm.value.password).end(),

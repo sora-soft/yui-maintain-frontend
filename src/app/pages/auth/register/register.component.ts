@@ -32,7 +32,7 @@ export class RegisterComponent {
   submitForm(): void {
     if (this.validateForm.valid) {
       const value = this.validateForm.value;
-      this.server.gateway.register({
+      this.server.auth.register({
         username: value.username,
         password: new Md5().appendStr(this.validateForm.value.password).end() as string,
         email: value.email,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
 import {UserError} from './error/UserError';
 import {ServerService} from './server/server.service';
-import {AuthPermission, PermissionResult, UserErrorCode} from './server/api';
+import {PermissionResult, UserErrorCode} from './server/api';
 import {TokenService} from './server/token.service';
 
 export interface IUserInfo {
@@ -122,7 +122,7 @@ export class UserService {
     return this.userInfo?.id;
   }
 
-  login(info: IUserInfo, permissions: AuthPermission[], token: string, expireAt: number) {
+  login(info: IUserInfo, permissions: {name: string, permission: PermissionResult}[], token: string, expireAt: number) {
     this.userInfo = info;
     for (const permission of permissions) {
       this.permissions.set(permission.name as AuthName, permission.permission);
@@ -131,7 +131,7 @@ export class UserService {
     this.token.setToken(token, expireAt);
   }
 
-  loadPermission(permissions: AuthPermission[]) {
+  loadPermission(permissions: {name: string, permission: PermissionResult}[]) {
     this.permissions.clear();
     permissions.forEach((permission) => {
       this.permissions.set(permission.name as AuthName, permission.permission);
@@ -165,7 +165,7 @@ export class UserService {
   }
 
   fetchUserInfo() {
-    return this.server.gateway.info().subscribe({
+    return this.server.auth.info().subscribe({
       next: (result) => {
         this.userInfo = result.account;
         this.loadPermission(result.permissions);

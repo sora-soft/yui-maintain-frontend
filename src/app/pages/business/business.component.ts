@@ -64,7 +64,7 @@ export class BusinessComponent implements OnInit, OnDestroy {
   }]
 
   logout() {
-    this.server.gateway.logout().subscribe({
+    this.server.auth.logout().subscribe({
       next: () => {
         this.router.navigate(['/auth/login']);
       },

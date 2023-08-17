@@ -25,7 +25,7 @@ export class EditAccountComponent {
     private authGroup: AuthGroupService,
     private errorHandler: ErrorHandler,
   ) {
-    authGroup.$authGroup.subscribe({
+    this.authGroup.$authGroup.subscribe({
       next: (list) => {
         this.authGroupList = list;
       }
@@ -37,20 +37,25 @@ export class EditAccountComponent {
       this.validateForm = this.fb.group({
         nickname: [this.account?.nickname, [Validators.required]],
         // email: [this.account?.email, [Validators.required]],
-        gid: [this.account?.gid],
+        // gid: [this.account?.gid],
+        groupList: [this.account.groupList?.map(group => group.id)],
       });
     } else {
+      console.log('create');
       this.validateForm = this.fb.group({
         username: [null, [Validators.required]],
         password: [null, [Validators.required]],
         nickname: [null, [Validators.required]],
         email: [null, [Validators.required]],
-        gid: [null, [Validators.required]],
+        // gid: [null, [Validators.required]],
+        groupList: [[]]
       });
     }
 
     this.ref.updateConfig({
       nzOnOk: () => {
+          console.log(this.validateForm.value);
+
         if (this.validateForm?.invalid) {
           Object.values(this.validateForm.controls).forEach(control => {
             if (control.invalid) {
@@ -66,8 +71,9 @@ export class EditAccountComponent {
           this.server.auth.updateAccount({
             accountId: this.account.id,
             nickname: value.nickname,
+            groupList: value.groupList,
             // email: value.email,
-            gid: value.gid,
+            // gid: value.gid,
           }).subscribe({
             next: () => {
               this.ref.close(true);

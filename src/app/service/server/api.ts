@@ -2,7 +2,6 @@ export declare class AccountToken {
     session: string;
     expireAt: number;
     accountId: number;
-    gid: string;
 }
 export enum AccountLoginType {
     USERNAME = 1,
@@ -36,10 +35,15 @@ export declare class Account {
     id: number;
     nickname?: string;
     avatarUrl?: string;
-    group?: AuthGroup;
-    gid: string;
+    groupList?: AuthGroup[];
     createTime: number;
     disabled: boolean;
+}
+export declare class AccountAuthGroup {
+    accountId: number;
+    account?: Account;
+    groupId: string;
+    authGroup?: AuthGroup;
 }
 export enum ConfigFileType {
     JSON = 0,
@@ -54,6 +58,40 @@ export declare class ConfigFile {
     updateTime: number;
 }
 export declare class AuthHandler {
+    register(body: IReqRegister): Promise<{
+        id: number;
+    }>;
+    login(body: IReqLogin): Promise<{
+        account: {
+            id: number;
+            nickname: string | undefined;
+            avatarUrl: string | undefined;
+        };
+        permissions: {
+            name: string;
+            permission: PermissionResult;
+        }[];
+        authorization: {
+            token: string;
+            expireAt: number;
+        };
+    }>;
+    info(body: void): Promise<{
+        account: {
+            id: number;
+            nickname: string | undefined;
+            avatarUrl: string | undefined;
+        };
+        permissions: {
+            name: string;
+            permission: PermissionResult;
+        }[];
+        authorization: {
+            token: string;
+            expireAt: number;
+        };
+    }>;
+    logout(body: void): Promise<{}>;
     fetchAccountList(): Promise<{
         list: Account[];
     }>;
@@ -70,6 +108,19 @@ export declare class AuthHandler {
     }>;
     forgetPassword(body: IReqForgetPassword): Promise<{}>;
 }
+export interface IReqRegister {
+    username: string;
+    password: string;
+    email: string;
+    nickname?: string;
+    avatarUrl?: string;
+}
+export interface IReqLogin {
+    username: string;
+    password: string;
+    type: AccountLoginType;
+    remember: boolean;
+}
 export interface IReqUpdatePermission {
     gid: string;
     permissions: {
@@ -79,7 +130,7 @@ export interface IReqUpdatePermission {
 }
 export interface IReqUpdateAccount {
     accountId: number;
-    gid?: string;
+    groupList?: string[];
     nickname?: string;
 }
 export interface IReqDisableAccount {
@@ -93,7 +144,7 @@ export interface IReqCreateAccount {
     username: string;
     nickname: string;
     email: string;
-    gid: string;
+    groupList: string[];
     password: string;
 }
 export interface IReqResetPassword {
@@ -114,49 +165,6 @@ export declare class ConfigHandler {
 export interface IReqFetchConfig {
     name: string;
     [k: string]: string;
-}
-export declare class GatewayHandler {
-    register(body: IReqRegister): Promise<{
-        id: number;
-    }>;
-    login(body: IReqLogin): Promise<{
-        account: {
-            id: number;
-            nickname: string | undefined;
-            avatarUrl: string | undefined;
-        };
-        permissions: AuthPermission[];
-        authorization: {
-            token: string;
-            expireAt: number;
-        };
-    }>;
-    info(body: void): Promise<{
-        account: {
-            id: number;
-            nickname: string | undefined;
-            avatarUrl: string | undefined;
-        };
-        permissions: AuthPermission[];
-        authorization: {
-            token: string;
-            expireAt: number;
-        };
-    }>;
-    logout(body: void): Promise<{}>;
-}
-export interface IReqRegister {
-    username: string;
-    password: string;
-    email: string;
-    nickname?: string;
-    avatarUrl?: string;
-}
-export interface IReqLogin {
-    username: string;
-    password: string;
-    type: AccountLoginType;
-    remember: boolean;
 }
 export declare class GatewayServerHandler {
     registerClientNotify(body: IReqRegisterClientNotify): Promise<{}>;
